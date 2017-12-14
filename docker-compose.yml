@@ -24,8 +24,6 @@ services:
     build: ./ftpserver
     image: ftpserver
     env_file: .env
-    environment:
-      PUBLICHOST: "${DOCKER_HOST_ADDRESS}"
     ports:
       - "${FTP_SERVER_PORT}:${FTP_SERVER_PORT}"
 
@@ -41,7 +39,7 @@ services:
     env_file: .env
     environment:
       FTP_CONFIGURATION_KEY:
-      DOCKER_HOST_ADDRESS: "${DOCKER_HOST_ADDRESS}"
+      LOCAL_FTP_SERVER: "${LOCAL_FTP_SERVER}"
       PY_CGI_PORT: "${PY_CGI_PORT}"
       FTP_SUBMISSION_DEBUG_PORT: "${FTP_SUBMISSION_DEBUG_PORT}"
       SUBMISSION_GIT_REPO: "${SUBMISSION_GIT_REPO}"
