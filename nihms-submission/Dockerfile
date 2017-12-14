@@ -23,7 +23,7 @@ RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.7/community' >> /etc/apk/repos
     rm -rf ~/.m2 && \
     rm -rf /var/cache/apk/
 
-ENV DOCKER_HOST_ADDRESS ftpserver
+ENV LOCAL_FTP_SERVER ftpserver
 
 ENV FTP_SUBMISSION_DEBUG_PORT 5005
 
