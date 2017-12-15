@@ -1,5 +1,3 @@
 #!/bin/sh
 
-npm install && \
-npm install -g ember-cli && \
-ember server
+ember server --port ${EMBER_PORT}

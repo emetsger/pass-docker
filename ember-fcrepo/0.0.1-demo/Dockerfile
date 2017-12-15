@@ -16,9 +16,9 @@ RUN apk add --no-cache nodejs-npm && \
     git clone ${EMBER_GIT_REPO} . && \
     git checkout ${EMBER_GIT_BRANCH} && \
     chmod 700 /bin/entrypoint.sh && \
-    rm -rf .git 
+    npm install && \
+    npm install -g ember-cli
 
 WORKDIR /ember
 
 ENTRYPOINT [ "/bin/entrypoint.sh" ]
-

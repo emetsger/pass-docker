@@ -22,10 +22,9 @@ services:
     env_file: .env
     depends_on:
       - submission
+      - fcrepo
     ports:
       - "${EMBER_PORT}:${EMBER_PORT}"
-    links:
-      - submission
 
   ftpserver:
     build: ./ftpserver/0.0.1-demo
@@ -54,5 +53,3 @@ services:
     ports:
       - "${PY_CGI_PORT}:${PY_CGI_PORT}"
       - "${FTP_SUBMISSION_DEBUG_PORT}:${FTP_SUBMISSION_DEBUG_PORT}"
-    links:
-      - "ftpserver"
