@@ -19,11 +19,12 @@ The Docker containers _must_ be built prior to starting the demo.  Currently the
 ### Starting
 1. Run `docker-compose up`
 
-After starting the demo with the defaults, the following services should work.  
+After starting the demo with the defaults, the following services should work.
 
   - Ember application: [http://localhost:4200](http://localhost:4200)
   - Internal FTP server: `localhost:21`, username: `nihmsftpuser` password: `nihmsftppass`
-  - HTTP POST submission trigger: `localhost:8080`
+  - HTTP POST submission trigger: `localhost:8081`
+  - Fedora: `localhost:8080/fcrepo/rest`
 
 
 >(**N.B.** `docker-machine` users will need to substitute the IP address of their Docker machine in place of `localhost`)
@@ -39,11 +40,11 @@ TODO
 To trigger a submission _without using the PASS Ember UI_:
 1. Start the demo
     - `docker-compose up`
-2. Send an empty HTTP `POST` request to the submission container, by default port `8080` or whatever `PY_CGI_PORT` is defined as
+2. Send an empty HTTP `POST` request to the submission container, by default port `8081` or whatever `PY_CGI_PORT` is defined as
     - for `docker-machine` users, this will be an IP address like `192.168.99.100`
     - for `Docker for *` users, this will be `localhost`
-    - e.g. `curl -X POST localhost:8080`
-    - e.g. `curl -X POST 192.168.99.100:8080`
+    - e.g. `curl -X POST localhost:8081`
+    - e.g. `curl -X POST 192.168.99.100:8081`
 
 You should see some logs flow across your Docker terminal window, and an indication of a successful FTP upload.
 
