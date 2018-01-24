@@ -8,31 +8,15 @@ Running Docker is _not required_ for deploying to Amazon ECS.  But, Amazon ECS w
 
 1. Checkout (i.e. clone) this repository: `git clone https://github.com/DataConservancy/pass-demo-docker`
 1. `cd` into `pass-demo-docker`
-1. Create an AWS account (e.g. a login to the [Amazon AWS console](http://aws.amazon.com)) if you don't  have one
-1. [Install](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) the Amazon AWS CLI
-1. [Install](https://aws.amazon.com/cli/) the Amazon ECS CLI
-
-<h2><a id="aws_cli_config" href="#ecs_cli_config">Configure the AWS CLI</a></h2>
-
-These are one-time configuration instructions.  Once your computer has the AWS CLI installed and configured, you shouldn't need to perform these steps again.
+1. Create an AWS account (e.g. a login to the [Amazon AWS console](http://aws.amazon.com)) if you don't have one, and obtain your AWS account number under _My Account_
+1. [Install](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) and [quickly configure](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html#cli-quick-configuration)  the Amazon AWS CLI
+1. [Install](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_CLI_installation.html) the Amazon ECS CLI (configuration instructions [below](#ecs_cli_config))
+1. [Install](https://stedolan.github.io/jq/) JQ
+1. Request access to the ECS cluster
 
 <h2><a id="ecs_cli_config" href="#ecs_cli_config">Configure the ECS CLI</a></h2>
 
 These are one-time configuration instructions.  Once your computer has the ECS CLI installed and configured, you shouldn't need to perform these steps again.
-
-### ECS Authentication Profile
-
-The ECS CLI allows you to select which authentication credentials to use when interacting with ECS.  Each set of credentials is stored in a _profile_; you must have at least one profile.  To create a profile, run:
-
-> $ `ecs-cli configure profile --profile-name profile_name --access-key $AWS_ACCESS_KEY_ID --secret-key $AWS_SECRET_ACCESS_KEY`
-
-Your `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` can be obtained from the [Amazon Console](http://aws.amazon.com) by [creating a User](AMAZON-IAM.md#create_user) using the Identity and Access Management (IAM) service.
-
-Set the newly created profile as your default profile:
-
-> $ `ecs-cli configure profile default --profile-name profile_name` 
-
-After configuring a profile, you should be able to `cat` the contents of `~/.ecs/credentials` to see your profile(s).
 
 ### ECS Cluster Configuration
 
@@ -44,7 +28,7 @@ That is to say, a cluster is where your containers will be deployed.  These inst
 
 Normally I use the same value for `cluster_name` and `configuration_name`
 
-After configuring your cluster, you should be able to `cat` the contents of `~/.ecs/config`, and edit it by hand if you wish (e.g. adding more cluster configurations).  An example configuration that defines two clusters (`pass` and `passdev`) is below:
+After configuring your cluster, you should be able to `cat` the contents of `~/.ecs/config`, and edit it by hand if you wish (e.g. adding more cluster configurations).  An example configuration that defines two clusters (**`pass`** and **`passdev`**) is below:
 
 ```yaml
 $ cat ~/.ecs/config
@@ -66,37 +50,7 @@ $ cat ~/.ecs/config
 If you have multiple clusters defined, you can set a default cluster by executing:
 > $ `ecs-cli configure default --config-name config_name`
 
-### ECS Task Execution Role
-
-The logs produced by containers are written to the Amazon CloudWatch service.  Amazon ECS requires permission of CloudWatch to write those logs.  Amazon ECS also needs permission to query the Elastic Container Registry, the Amazon equivalent of a Docker Registry.  At this time, we don't store the images in the Amazon ECR, but this policy insures access to the ECR in case we use it in the future.  
-
-To do so, create an ECS task execution role and attach a policy to the role.
-
-1. Create a file named `execution-assume-role.json` with the following contents:
-
-```json
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "",
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "ecs-tasks.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-```
-
-2. Using the AWS CLI, create the task execution role:
-
-> $ `aws iam --region us-east-1 create-role --role-name ecsExecutionRole --assume-role-policy-document file://execution-assume-role.json`
-
-3. Using the AWS CLI attach the role to the existing (Amazon managed) policy (`arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy`):
-
-> $ `aws iam --region us-east-1 attach-role-policy --role-name ecsExecutionRole --policy-arn arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy`
+Read the [canonical configuration documentation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_CLI_Configuration.html) (optional)
 
 <h1><a id="ecs_container_config" href="#ecs_container_config">Configuring, Building, and Pushing the Docker Containers</a> (optional)</h1>
 
@@ -111,10 +65,20 @@ Because the ECS deployment _extends_ the existing Docker deployment, refer to th
 
 <h1><a id="ecs_deploy" href="#ecs_deploy">Deploying to ECS and Starting Containers</a></h1>
 
-> If you have defined multiple clusters and the targeted cluster is **not** the default cluster, then add the `-c` command line switch to name the cluster configuration.
+1. Assume the **`ECS_Pass_Cluster_Management`** IAM role if you haven't already:
+> $ `eval $(./assume-aws-role.sh)`
 
-Deploying containers to the _default_ cluster using the `ecs-cli` is quite similar to using `docker-compose`:
+This script calls the AWS Secure Token Service to obtain temporary security credentials for the `ECS_Pass_Cluster_Managment` role.  It will set three environment variables:
+  - `AWS_SESSION_TOKEN`
+  - `AWS_SECRET_ACCESS_KEY`
+  - `AWS_ACCESS_KEY_ID`
+
+Windows users will need to invoke the `amazon sts` command directly, and `set` the same environment variables manually (or donate a PR with a script).  
+
+2. Deploying containers to the _default_ cluster using the `ecs-cli` is quite similar to using `docker-compose`:
 > $ `ecs-cli compose -f docker-compose.yml -f docker-compose-ecs.yml up`
+
+> If you have defined multiple clusters and the targeted cluster is **not** the default cluster, then add the `-c` command line switch to name the cluster configuration.
 
 Two files are named: the vanilla `docker-compose.yml` used by the local Docker deployment, and another file, in `docker-compose` format, that names additional configuration parameters specific to the ECS deployment.  The output of this command will issue status updates until the containers are successfully deployed.  Note that if the cluster has existing containers that are already running, the `up` command will de-provision and stop those containers before provisioning and starting new ones.
 
