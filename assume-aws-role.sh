@@ -16,8 +16,9 @@
 #  jq: https://stedolan.github.io/jq/
 
 
-ROLE_ARN=arn:aws:iam::005956675899:role/ECS_Pass_Cluster_Management
+ROLE_ARN=${ROLE_ARN:=arn:aws:iam::005956675899:role/ECS_Pass_Cluster_Management}
 ROLE_NAME=pass_mgmt
+
 declare -a ROLE_CREDS
 
 function drop_role()
