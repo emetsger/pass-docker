@@ -19,12 +19,6 @@
 ROLE_ARN=${ROLE_ARN:=arn:aws:iam::005956675899:role/ECS_Pass_Cluster_Management}
 ROLE_NAME=pass_mgmt
 
-if [[ ! -z ROLE_PROFILE ]]; then
-  ROLE_PROFILE="--profile $ROLE_PROFILE"
-else
-  ROLE_PROFILE=""
-fi
-
 declare -a ROLE_CREDS
 
 function drop_role()
@@ -34,7 +28,7 @@ function drop_role()
 
 function obtain_role()
 {
-  ROLE_CREDS=($(aws sts assume-role ${ROLE_PROFILE} --role-arn ${ROLE_ARN} --role-session-name ${ROLE_NAME} | jq -r '[.Credentials.SessionToken, .Credentials.SecretAccessKey, .Credentials.AccessKeyId] | @sh'))
+  ROLE_CREDS=($(aws sts assume-role --role-arn ${ROLE_ARN} --role-session-name ${ROLE_NAME} | jq -r '[.Credentials.SessionToken, .Credentials.SecretAccessKey, .Credentials.AccessKeyId] | @sh'))
 }
 
 case $1 in
