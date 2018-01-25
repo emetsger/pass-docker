@@ -106,5 +106,54 @@ By default, the internal FTP server is used.  To use the NIH test FTP server, ex
 
 <h2><a id="push" href="#push">Pushing Images to Docker Hub</a></h2>
 
+### Prerequisites for Pushing Images
+
+To push the images to Docker Hub, you must have a Docker Hub account, and have write permissions to the [PASS repository](https://hub.docker.com/u/pass/dashboard/).  
+
+### Image Naming and Tags
+
+Images are identified by: `<repository prefix>/<image name>:<image tag>`, where `<repository prefix>` is the string `pass`: e.g. `pass/ember-fcrepo:0.0.1-demo` 
+
+Image _tags_ are similar to tags in a version control system:  arbitrary strings that resolve a stable set of content.  Tags in Docker can be overwritten, just like tags in a VCS.  
+
+> **Care should be taken when pushing images: overwriting a tag is something that should be done with caution**
+
+Tags are per-image, not per-repository.  That means each image can have its own set of tags (i.e. version semantics).  For example, the [fcrepo](fcrepo/) image may have tags that correspond to the version of [Fedora](http://fedorarepository.org) used by the image:
+  - `pass/fcrepo:4.7.1`
+  - `pass/fcrepo:4.7.2`
+  - `pass/fcrepo:5.0.0`
+
+The [Ember application](ember-fcrepo) may have its own versioning scheme based on feature set:
+  - `pass/ember-fcrepo:0.0.1-demo`
+  - `pass/ember-fcrepo:0.0.2-demo`
+  - `pass/ember-fcrepo:1.0.0`   
+
+### Pushing Images
+
+> **It is imperative to know what tags (i.e. versions) need to be updated, and what the new tags are**
+
+> N.B. it may be completely valid for the tags to remain unchanged, and simply have the images in the Docker Hub be overwritten.  This may be the case especially when updating a development image with the latest code
+
+1. Determine the tag for each image to be pushed
+    - Review and update `docker-compose.yml`, if necessary, to use the proper tag(s)
+    - Again, it may be the case that tags remain unchanged, in which case the semantics of a push operation are: _Overwrite existing images in Docker Hub_
+
+1. [Build](#build) the images
+    - > $ `docker images ls | grep 'pass/'` should return a list of images, including the image names and tags chosen in the previous step
+    
+1. (Optional) [Start](#start) Docker and test the newly-built images    
+
+1. Push each image individually, specified as `pass/<image name>:<image tag>`
+    - > $ `docker push pass/ember-fcrepo:0.0.1-demo`
+    - > $ `docker push pass/nihms-submission:1.0.0-SNAPSHOT-demo`
+    - > $ # push more images ... 
+    
+1. If `docker-compose.yml` was updated in step (1), be sure to commit  those changes to Git, and push.
+    - > N.B. do _not_ push local changes to `.env`
+
+1. (Optional) Use `git tag` in order to provide traceability for the deployed images
+    - > N.B. don't forget to push the tag
+
+1. (Optional) [Deploy](AMAZON.md#ecs_deploy) the new images to the Amazon ECS cluster
 
  
