@@ -19,6 +19,7 @@ EXPOSE ${FCREPO_PORT}
 
 COPY bin/* /bin/
 COPY conf/* ${CATALINA_HOME}/conf/
+COPY tomcat-bin/* ${CATALINA_HOME}/bin/
 
 RUN apk update && \
     apk add --no-cache ca-certificates wget gettext curl && \
