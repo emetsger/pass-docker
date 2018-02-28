@@ -1,6 +1,6 @@
 # Instructions
 
-These instructions are for starting the PASS demo instance locally, using Docker.  To see the Amazon ECS instructions, look at [AMAZON.md](AMAZON.md).  If you have Docker already installed and want to start up the demo ASAP, jump to [starting Docker](#start).
+These instructions are for starting the PASS demo instance locally, using Docker.  If you have Docker already installed and want to start up the demo ASAP, jump to [starting Docker](#start).
 
 <h2><a id="prereq" href="#prereq">Prerequisites</a></h2>
 
@@ -44,6 +44,9 @@ To configure the Docker images, open up the `.env` file and make any necessary c
   - FCREPO_PORT: the port Fedora runs on (may differ from the port in `PASS_FEDORA_PORT` or `PASS_FEDORA_HOST` when the infrastructure is behind a proxy)
   - FCREPO_JMS_PORT: used by Fedora JMS messaging
   - FCREPO_STOMP_PORT: used by Fedora JMS messaging
+  - FCREPO_LOG_LEVEL: sets the log level of the Fedora repository
+  - FCREPO_TOMCAT_REQUEST_DUMPER_ENABLED: if set to `true`, instructs Tomcat to dump the headers for each request/response
+  - FCREPO_TOMCAT_AUTH_LOGGING_ENABLED: if set to `true`, instructs Tomcat to log additional information regarding authentication and authorization
 
 <h2><a id="build" href="#build">Building the Docker Images</a> (optional)</h2>
 
@@ -66,10 +69,11 @@ If you built the images (or if you already have the images locally from a previo
 
 After starting the demo with the defaults, the following services should work.
 
-  - Ember application: [http://localhost](http://localhost)
+  - Ember application: [https://localhost](https://localhost)
   - Internal FTP server: `localhost:21`, username: `nihmsftpuser` password: `nihmsftppass`
   - HTTP POST submission trigger: `localhost:8081`
-  - Fedora: `localhost:8080/fcrepo/rest`
+  - Fedora: `http://localhost:8080/fcrepo/rest`
+  - Same Fedora instance behind a Shibboleth SP: `https://localhost/fcrepo/rest`
 
 
 >(**N.B.** `docker-machine` users will need to substitute the IP address of their Docker machine in place of `localhost`)
@@ -153,7 +157,3 @@ The [Ember application](ember-fcrepo) may have its own versioning scheme based o
 
 1. (Optional) Use `git tag` in order to provide traceability for the deployed images
     - > N.B. don't forget to push the tag
-
-1. (Optional) [Deploy](AMAZON.md#ecs_deploy) the new images to the Amazon ECS cluster
-
- 

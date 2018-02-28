@@ -4,7 +4,7 @@ ARG EMBER_GIT_REPO
 ARG EMBER_GIT_BRANCH
 
 ENV EMBER_GIT_BRANCH=${EMBER_GIT_BRANCH:-master} \
-    EMBER_GIT_REPO=${EMBER_GIT_REPO:-https://github.com/DataConservancy/pass-ember} \
+    EMBER_GIT_REPO=${EMBER_GIT_REPO:-https://github.com/OA-PASS/pass-ember} \
     EMBER_BUILD_DIR=/ember
 
 COPY bin/entrypoint.sh /bin

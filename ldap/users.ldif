@@ -1,0 +1,91 @@
+dn: cn=admin,dc=pass
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: admin
+userPassword: password
+description: LDAP administrator
+
+
+dn: uid=student1,ou=People,dc=pass
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+objectClass: inetOrgPerson
+givenName: Stud
+uid: student1
+sn: Ent
+cn: Stud Ent
+mail: student1@pass.edu
+userPassword: password
+
+dn: uid=staff1,ou=People,dc=pass
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+objectClass: inetOrgPerson
+givenName: St
+uid: staff1
+sn: aff
+cn: St aff
+mail: staff1@pass.edu
+userPassword: password
+
+dn: uid=admin,ou=People,dc=pass
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+objectClass: inetOrgPerson
+givenName: Moo
+uid: admin
+sn: Admin
+cn: Moo Cow
+mail: admin@pass.edu
+userPassword: moo
+
+dn: uid=fedoraAdmin,ou=People,dc=pass
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+objectClass: inetOrgPerson
+givenName: Admin Moo
+uid: fedoraAdmin
+sn: fedoraAdmin
+cn: Admin Moo Cow
+mail: fedoraAdmin@pass.edu
+userPassword: moo
+
+dn: uid=agudzun,ou=People,dc=pass
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+objectClass: inetOrgPerson
+givenName: Anne
+uid: agudzun
+sn: Gudzun
+cn: Anne Gudzun
+mail: agudzun@pass.edu
+userPassword: moo
+
+dn: uid=BenjaminHarman,ou=People,dc=pass
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+objectClass: inetOrgPerson
+givenName: Ben
+uid: BenjaminHarman
+sn: Harman
+cn: Benjamin Harman
+mail: BenjaminHarman@pass.edu
+userPassword: moo
+
+dn: uid=CynthiaSears,ou=People,dc=pass
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+objectClass: inetOrgPerson
+givenName: Cynthia
+uid: CynthiaSears
+sn: Sears
+cn: Cynthia Sears
+mail: CynthiaSears@pass.edu
+userPassword: moo

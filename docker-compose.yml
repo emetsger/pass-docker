@@ -1,4 +1,4 @@
-version: '2'
+version: '3.1'
 
 services:
 
@@ -6,11 +6,15 @@ services:
     build:
       context: ./fcrepo/4.7.5-demo
     image: oapass/fcrepo
+    container_name: fcrepo
     env_file: .env
     ports: 
       - "${FCREPO_PORT}:${FCREPO_PORT}"
       - "${FCREPO_JMS_PORT}:${FCREPO_JMS_PORT}"
       - "${FCREPO_STOMP_PORT}:${FCREPO_STOMP_PORT}"
+    networks:
+      - front
+      - back
 
   ember:
     build:
@@ -19,19 +23,22 @@ services:
         EMBER_GIT_REPO: "${EMBER_GIT_REPO}"
         EMBER_GIT_BRANCH: "${EMBER_GIT_BRANCH}"
     image: oapass/ember-fcrepo
+    container_name: ember
     env_file: .env
-    depends_on:
-      - submission
-      - fcrepo
     ports:
       - "${EMBER_PORT}:${EMBER_PORT}"
+    networks:
+      - back
 
   ftpserver:
     build: ./ftpserver/0.0.1-demo
     image: oapass/ftpserver
+    container_name: ftpserver
     env_file: .env
     ports:
       - "${FTP_SERVER_PORT}:${FTP_SERVER_PORT}"
+    networks:
+      - front
 
   submission:
     build:
@@ -40,6 +47,7 @@ services:
         SUBMISSION_GIT_REPO: "${SUBMISSION_GIT_REPO}"
         SUBMISSION_GIT_BRANCH: "${SUBMISSION_GIT_BRANCH}"
     image: oapass/nihms-submission
+    container_name: submission
     depends_on:
       - ftpserver
     env_file: .env
@@ -53,3 +61,73 @@ services:
     ports:
       - "${PY_CGI_PORT}:${PY_CGI_PORT}"
       - "${FTP_SUBMISSION_DEBUG_PORT}:${FTP_SUBMISSION_DEBUG_PORT}"
+    networks:
+      - front
+
+  proxy:
+    build: ./httpd-proxy/
+    image: oapass/httpd-proxy
+    container_name: proxy
+    networks:
+     - front
+     - back
+    ports:
+     - "80:80"
+     - "443:443"
+
+  idp:
+    build: ./idp/3.3.2
+    image: oapass/idp
+    container_name: idp
+    depends_on:
+     - ldap
+    environment:
+     - JETTY_MAX_HEAP=64m
+     - JETTY_BROWSER_SSL_KEYSTORE_PASSWORD=password
+     - JETTY_BACKCHANNEL_SSL_KEYSTORE_PASSWORD=password
+    expose:
+     - "4443"
+    networks:
+     - back
+    secrets:
+     - source: idp_backchannel
+     - source: idp_browser
+     - source: idp_encryption
+     - source: idp_signing
+     - source: idp_sealer
+
+  ldap:
+    build: ./ldap/
+    image: oapass/ldap
+    container_name: ldap
+    networks:
+     - back
+
+  sp:
+    build: ./sp/2.6.1
+    image: oapass/sp
+    container_name: sp
+    networks:
+     - back
+    secrets:
+     - source: sp_key
+
+networks:
+  front:
+    driver: bridge
+  back:
+    driver: bridge
+
+secrets:
+  idp_backchannel:
+    file: ./secrets/idp/idp-backchannel.p12
+  idp_browser:
+    file: ./secrets/idp/idp-browser.p12
+  idp_encryption:
+    file: ./secrets/idp/idp-encryption.key
+  idp_signing:
+    file: ./secrets/idp/idp-signing.key
+  idp_sealer:
+    file: ./secrets/idp/sealer.jks
+  sp_key:
+    file: ./secrets/sp/sp-key.pem
