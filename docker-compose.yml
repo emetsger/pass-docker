@@ -4,8 +4,8 @@ services:
 
   fcrepo:
     build:
-      context: ./fcrepo/4.7.4-demo
-    image: pass/fcrepo:4.7.4-demo
+      context: ./fcrepo/4.7.5-demo
+    image: pass/fcrepo:4.7.5-demo
     env_file: .env
     ports: 
       - "${FCREPO_PORT}:${FCREPO_PORT}"
