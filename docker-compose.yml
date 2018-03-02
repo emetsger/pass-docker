@@ -12,6 +12,7 @@ services:
       - "${FCREPO_PORT}:${FCREPO_PORT}"
       - "${FCREPO_JMS_PORT}:${FCREPO_JMS_PORT}"
       - "${FCREPO_STOMP_PORT}:${FCREPO_STOMP_PORT}"
+      - "${FCREPO_DEBUG_PORT}:${FCREPO_DEBUG_PORT}"
     networks:
       - front
       - back
