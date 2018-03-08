@@ -1,12 +1,19 @@
+# Purpose
+
+This repository serves as the canonical environment for demonstrating integration of the [PASS Ember application](https://github.com/oa-pass/pass-ember) with its dependant services.  This repository provides two things:
+1. Docker images that are the basis for the production deployment of PASS, pushed to the [`pass` organization](https://hub.docker.com/u/pass/dashboard/) in Docker Hub 
+1. Provides a `docker-compose` orchestration that configures and launches PASS for developers 
+
 # Instructions
 
-These instructions are for starting the PASS demo instance locally, using Docker.  If you have Docker already installed and want to start up the demo ASAP, jump to [starting Docker](#start).
+These instructions are for starting PASS with `docker-compose`.  If you have Docker already installed and want to start up the demo ASAP, jump to [starting Docker](#start).
 
 <h2><a id="prereq" href="#prereq">Prerequisites</a></h2>
 
-1. A working Docker installation: Docker for Mac, Docker for Windows, Docker Linux, or Docker Machine
-2. Checkout (i.e. clone) this repository: `git clone https://github.com/OA-PASS/pass-demo-docker`
-3. `cd` into `pass-demo-docker`
+1. Create a "hosts" entry (`lmhosts` for windows, `/etc/hosts` for *nix) that aliases the hostname `pass` to your loopback address (`127.0.0.1`) or to your docker-machine address (e.g. `192.168.99.100`)
+2. A working Docker installation: Docker for Mac, Docker for Windows, Docker Linux, or Docker Machine
+3. Checkout (i.e. clone) this repository: `git clone https://github.com/OA-PASS/pass-demo-docker`
+4. `cd` into `pass-demo-docker`
 
 > Docker Machine users should remember to set the appropriate environment variables in order to select an active machine (e.g. `eval $(docker-machine env default)`), and insure the selected machine is running (e.g. `docker-machine ls`, `docker-machine start default`)
 
