@@ -13,4 +13,4 @@ ADD entrypoint.sh /
 
 RUN chmod 550 /entrypoint.sh
 
-ENTRYPOINT /entrypoint.sh -d -d -c 10 -C 10 -H -l puredb:/etc/pure-ftpd/pureftpd.pdb -E -j -R -p 30000:30010
+ENTRYPOINT /entrypoint.sh -d -d -c 50 -C 10 -H -l puredb:/etc/pure-ftpd/pureftpd.pdb -E -j -R -p 30000:30100
