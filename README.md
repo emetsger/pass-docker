@@ -55,6 +55,15 @@ To configure the Docker images, open up the `.env` file and make any necessary c
   - FCREPO_TOMCAT_REQUEST_DUMPER_ENABLED: if set to `true`, instructs Tomcat to dump the headers for each request/response
   - FCREPO_TOMCAT_AUTH_LOGGING_ENABLED: if set to `true`, instructs Tomcat to log additional information regarding authentication and authorization
 
+### DSpace-related variables
+
+  - DSPACE_HOST: the host name DSpace will use when generating HTTP responses, defaults to `localhost` (`docker-machine` users _must_ set this to the IP address of their docker-machine)
+  - DSPACE_PORT: the port that DSpace and its applications are exposed on, defaults to port `8181`
+  
+### Postgres-related variables
+
+  - POSTGRES_DB_PORT: the port that the Postgres database is exposed on, defaults to `6543`
+     
 <h2><a id="build" href="#build">Building the Docker Images</a> (optional)</h2>
 
 If the images deployed to Docker Hub are up-to-date, then you do not need to build the images.
@@ -81,6 +90,15 @@ After starting the demo with the defaults, the following services should work.
   - HTTP POST submission trigger: `localhost:8081`
   - Fedora: `http://localhost:8080/fcrepo/rest`
   - Same Fedora instance behind a Shibboleth SP: `https://localhost/fcrepo/rest`
+  - DSpace repository, exposed at port `8181`: `http://localhost:8181/xmlui`
+      - Login with username `dspace-admin@oapass.org`, password `foobar`
+      - Not behind the Shibboleth SP
+  - DSpace SWORD v2 endpoint: `http://localhost:8181/swordv2/servicedocument`
+      - Protected by HTTP basic auth
+      - Authenticate with username `dspace-admin@oapass.org`, password `foobar`
+      - Not behind the Shibboleth SP
+  - Postgres database, exposed at port `6543`
+      - DSpace database name `dspace`, username `dspace`, no password
 
 
 >(**N.B.** `docker-machine` users will need to substitute the IP address of their Docker machine in place of `localhost`)

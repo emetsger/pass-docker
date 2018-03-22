@@ -113,6 +113,26 @@ services:
     secrets:
      - source: sp_key
 
+  dspace:
+    build: ./dspace/6.2
+    image: oapass/dspace
+    container_name: dspace
+    env_file: .env
+    ports:
+      - "${DSPACE_PORT}:${DSPACE_PORT}"
+    networks:
+      - back
+
+  postgres:
+    build: ./postgres/10.3
+    image: oapass/postgres
+    container_name: postgres
+    env_file: .env
+    ports:
+      - "${POSTGRES_DB_PORT}:${POSTGRES_DB_PORT}"
+    networks:
+      - back
+
 networks:
   front:
     driver: bridge
