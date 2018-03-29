@@ -10,7 +10,7 @@ function verify_db() {
 
 # performs the supplied query against the DSpace database
 function perform_query() {
-    psql -c "$1" -h ${POSTGRES_DB_PORT} -p ${POSTGRES_DB_PORT} -w ${DSPACE_DB_NAME} ${DSPACE_DB_USER}
+    psql -c "$1" -h ${DSPACE_DB_HOST} -p ${POSTGRES_DB_PORT} -w ${DSPACE_DB_NAME} ${DSPACE_DB_USER}
 }
 
 # blocks until the database is available, or returns 1 to indicate failure
