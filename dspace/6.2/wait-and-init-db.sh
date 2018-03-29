@@ -65,7 +65,7 @@ function perform_runtime_config() {
 
     sed -e "s:^dspace.hostname = .*:dspace.hostname = ${DSPACE_HOST}:"  -i local.cfg
     sed -e "s:^dspace.baseUrl = .*:dspace.baseUrl = http\://${DSPACE_HOST}\:${DSPACE_PORT}:"  -i local.cfg
-    sed -e "s:^db.url = .*:db.url = jdbc\:postgresql\://${POSTGRES_DB_PORT}\:${POSTGRES_DB_PORT}/${DSPACE_DB_NAME}:"  -i local.cfg
+    sed -e "s:^db.url = .*:db.url = jdbc\:postgresql\://${DSPACE_DB_HOST}\:${POSTGRES_DB_PORT}/${DSPACE_DB_NAME}:"  -i local.cfg
     sed -e "s:^db.username = .*:db.username = ${DSPACE_DB_USER}:"  -i local.cfg
     sed -e "s:^db.password = .*:db.password = ${DSPACE_DB_PASS}:"  -i local.cfg
     sed -e "s:^loglevel.dspace=.*:loglevel.dspace=DEBUG:" -i log4j.properties
