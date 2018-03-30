@@ -36,7 +36,6 @@ RUN mkdir ${DSPACE_BUILD_DIR} && \
     mkdir -p ${DSPACE_INSTALL_DIR} && \
     cp -r ${DSPACE_INSTALL_DIR}/webapps/xmlui/ /var/lib/jetty/webapps && \
     cp -r ${DSPACE_INSTALL_DIR}/webapps/swordv2/ /var/lib/jetty/webapps && \
-    cp -r ${DSPACE_INSTALL_DIR}/webapps/solr/ /var/lib/jetty/webapps && \
     chown -R ${DSPACE_USER} ${DSPACE_INSTALL_DIR} && \
     chown -R jetty /var/lib/jetty/webapps/* && \
     cd / && \
