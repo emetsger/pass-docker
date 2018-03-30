@@ -3,8 +3,8 @@ FROM jetty:9.4.7-jre8-alpine
 ARG DSPACE_BUILD_DIR=/dspace-build
 ARG DSPACE_INSTALL_DIR=/dspace
 ARG DSPACE_USER=jetty
-ARG DSPACE_GIT_REPO=${DSPACE_GIT_REPO:-https://github.com/DSpace/DSpace}
-ARG DSPACE_GIT_BRANCH=${DSPACE_GIT_BRANCH:-dspace-6.2}
+ARG DSPACE_GIT_REPO=${DSPACE_GIT_REPO:-https://github.com/emetsger/DSpace}
+ARG DSPACE_GIT_BRANCH=${DSPACE_GIT_BRANCH:-origin/logging}
 
 ENV DSPACE_HOST=${DSPACE_HOST:-localhost} \
     DSPACE_PORT=${DSPACE_PORT:-8181} \
@@ -17,7 +17,8 @@ ENV DSPACE_HOST=${DSPACE_HOST:-localhost} \
 
 USER root
 
-RUN mkdir ${DSPACE_BUILD_DIR} && \
+RUN set -vx && \
+    mkdir ${DSPACE_BUILD_DIR} && \
     cd ${DSPACE_BUILD_DIR} && \
     apk --update --no-cache add \
             openjdk8 \
@@ -36,7 +37,7 @@ RUN mkdir ${DSPACE_BUILD_DIR} && \
     mkdir -p ${DSPACE_INSTALL_DIR} && \
     cp -r ${DSPACE_INSTALL_DIR}/webapps/xmlui/ /var/lib/jetty/webapps && \
     cp -r ${DSPACE_INSTALL_DIR}/webapps/swordv2/ /var/lib/jetty/webapps && \
-    cp -r ${DSPACE_INSTALL_DIR}/webapps/solr/ /var/lib/jetty/webapps && \
+#    cp -r ${DSPACE_INSTALL_DIR}/webapps/solr/ /var/lib/jetty/webapps && \
     chown -R ${DSPACE_USER} ${DSPACE_INSTALL_DIR} && \
     chown -R jetty /var/lib/jetty/webapps/* && \
     cd / && \
@@ -45,13 +46,20 @@ RUN mkdir ${DSPACE_BUILD_DIR} && \
         apache-ant \
         openjdk8 \
         git && \
-    rm -rf /var/cache/apk
+    rm -rf /var/cache/apk && \
+    rm -rf ~/.m2
 
 ADD wait-and-init-db.sh /wait-and-init-db.sh
 
 ADD import.xml /import.xml
 
-RUN chown jetty /wait-and-init-db.sh && chmod 550 /wait-and-init-db.sh && chown ${DSPACE_USER} /import.xml
+ADD log4j.properties ${DSPACE_INSTALL_DIR}/config
+
+RUN chown jetty /wait-and-init-db.sh && \
+    chmod 550 /wait-and-init-db.sh && \
+    chown ${DSPACE_USER} /import.xml && \
+    chown ${DSPACE_USER} ${DSPACE_INSTALL_DIR}/config/log4j.properties && \
+    chmod 664 ${DSPACE_INSTALL_DIR}/config/log4j.properties
 
 USER jetty
 
@@ -60,3 +68,5 @@ WORKDIR /var/lib/jetty
 CMD ["/wait-and-init-db.sh"]
 
 EXPOSE ${DSPACE_PORT}
+
+EXPOSE 5005

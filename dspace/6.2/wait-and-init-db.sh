@@ -120,4 +120,4 @@ import_communities_and_collections
 # Start jetty
 cd ${WORKDIR}
 
-java -Djetty.http.port=${DSPACE_PORT} -jar /usr/local/jetty/start.jar
+java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -Djetty.http.port=${DSPACE_PORT} -jar /usr/local/jetty/start.jar

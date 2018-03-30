@@ -120,6 +120,7 @@ services:
     env_file: .env
     ports:
       - "${DSPACE_PORT}:${DSPACE_PORT}"
+      - "5005:5005"
     networks:
       - back
 
