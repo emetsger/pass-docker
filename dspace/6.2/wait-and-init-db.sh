@@ -94,6 +94,19 @@ function import_communities_and_collections() {
     return 0
 }
 
+function create_local_metadata_schema() {
+    local FIELD_REGISTRY_TABLE=metadatafieldregistry
+    local LOCAL_SCHEMA_ID=4
+    local LOCAL_METADATA_ELEMENTS=`perform_query "SELECT count(*) from ${FIELD_REGISTRY_TABLE} WHERE metadata_schema_id = '${LOCAL_SCHEMA_ID}'" | sed -n 3p | sed -e 's: ::g'`
+
+    if [ ${LOCAL_METADATA_ELEMENTS:-0} == 0 ] ;
+    then
+        (>&2 echo ">>> Initializing local metadata registry ...")
+        perform_query "INSERT INTO ${FIELD_REGISTRY_TABLE} (metadata_schema_id, element, qualifier) VALUES ('${LOCAL_SCHEMA_ID}', 'embargo', 'terms')"
+        perform_query "INSERT INTO ${FIELD_REGISTRY_TABLE} (metadata_schema_id, element, qualifier) VALUES ('${LOCAL_SCHEMA_ID}', 'embargo', 'lift')"
+    fi
+    return 0
+}
 # preserve WORKDIR
 WORKDIR=`pwd`
 
@@ -116,6 +129,9 @@ fi
 
 # Import communities and collections if they don't already exist
 import_communities_and_collections
+
+# Create local metadata schema used to carry embargo metadata fields
+create_local_metadata_schema
 
 # Start jetty
 cd ${WORKDIR}
