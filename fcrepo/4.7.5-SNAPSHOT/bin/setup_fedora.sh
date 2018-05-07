@@ -94,3 +94,5 @@ create_object "users"
 curl -v -i -# -u bootstrap:bootstrap -X PUT -H "Content-Type: text/turtle" --data-binary "@conf/acl.ttl" ${REPO}/.acl
 curl -v -i -# -u bootstrap:bootstrap -X PUT -H "Content-Type: text/turtle" --data-binary "@conf/authz.ttl" ${REPO}/.acl/authz
 curl -v -i -# -u bootstrap:bootstrap -X PATCH -H "Content-Type: application/sparql-update" -d "INSERT { <> <http://www.w3.org/ns/auth/acl#accessControl> </fcrepo/rest/.acl> } WHERE {}" ${REPO}/
+curl -v -i -# -u bootstrap:bootstrap -X PUT -H "Content-Type: text/turtle" --data-binary "@conf/nih.ttl" ${REPO}/repositories/nih
+curl -v -i -# -u bootstrap:bootstrap -X PUT -H "Content-Type: text/turtle" --data-binary "@conf/js.ttl" ${REPO}/repositories/js
