@@ -62,6 +62,7 @@
                     <compositeTopic name="fedora" forwardOnly="false">
                         <forwardTo>
                             <queue physicalName="fedora"/>
+                            <queue physicalName="deposit"/>
                         </forwardTo>
                     </compositeTopic>
                 </virtualDestinations>
