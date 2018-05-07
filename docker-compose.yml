@@ -8,9 +8,7 @@ services:
     image: oapass/fcrepo:4.7.5-2.0-SNAPSHOT-1
     container_name: fcrepo
     env_file: .env
-    environment:
-      - FCREPO_JMS_BASEURL=http://${FCREPO_HOST}:${FCREPO_PORT}/fcrepo/rest
-    ports: 
+    ports:
       - "${FCREPO_PORT}:${FCREPO_PORT}"
       - "${FCREPO_JMS_PORT}:${FCREPO_JMS_PORT}"
       - "${FCREPO_STOMP_PORT}:${FCREPO_STOMP_PORT}"
