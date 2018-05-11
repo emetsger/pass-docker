@@ -11,6 +11,7 @@ ACTIVEMQ_BROKER_URI=tcp://localhost:61616 \
 FCREPO_ACTIVEMQ_CONFIGURATION=classpath:/config/activemq.xml \
 FCREPO_SPRING_CONFIGURATION=classpath:/spring/master.xml \
 FCREPO_MODESHAPE_CONFIGURATION=classpath:/pass-repository.json \
+FCREPO_JMS_CONFIGURATION=classpath:/spring/jms.xml \
 SLF4J_VERSION=1.7.25 \
 DEBUG_PORT=5006 \
 DEBUG_ARG="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5006" \
@@ -44,6 +45,8 @@ RUN apk update && \
     mkdir ${CATALINA_HOME}/webapps/fcrepo && \
     unzip ${CATALINA_HOME}/webapps/fcrepo.war -d ${CATALINA_HOME}/webapps/fcrepo  && \
     rm ${CATALINA_HOME}/webapps/fcrepo.war && \
+    wget -O ${CATALINA_HOME}/webapps/fcrepo/WEB-INF/lib/jms-addon-0.0.1.jar \
+            https://github.com/DataConservancy/fcrepo-jms/releases/download/jms-addon-0.0.1/jms-addon-0.0.1.jar && \
     chmod 700 /bin/entrypoint.sh && \
     chmod 700 /bin/setup_fedora.sh
 

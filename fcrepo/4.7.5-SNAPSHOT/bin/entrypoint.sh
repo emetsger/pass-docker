@@ -31,6 +31,7 @@ OPTS="-Dfcrepo.log=${FCREPO_LOG_LEVEL}
       -Dfcrepo.log.auth=${FCREPO_AUTH_LOG_LEVEL}                             \
       -Dfcrepo.log.jms=${FCREPO_LOG_JMS}                                     \
       -Dfcrepo.jms.baseUrl=${_JMS_BASEURL}                                   \
+      -Dfcrepo.spring.jms.configuration=${FCREPO_JMS_CONFIGURATION}          \
       -Dfcrepo.modeshape.configuration=${FCREPO_MODESHAPE_CONFIGURATION}     \
       -Dfcrepo.spring.configuration=${FCREPO_SPRING_CONFIGURATION}           \
       -Dfcrepo.postgresql.host=${FCREPO_POSTGRESQL_HOST}                     \
