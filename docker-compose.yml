@@ -41,31 +41,6 @@ services:
     container_name: ftpserver
     env_file: .env
     ports:
-      - "${FTP_SERVER_PORT}:${FTP_SERVER_PORT}"
-    networks:
-      - front
-
-  submission:
-    build:
-      context: ./nihms-submission/1.0.0-SNAPSHOT-demo
-      args:
-        SUBMISSION_GIT_REPO: "${SUBMISSION_GIT_REPO}"
-        SUBMISSION_GIT_BRANCH: "${SUBMISSION_GIT_BRANCH}"
-    image: oapass/nihms-submission
-    container_name: submission
-    depends_on:
-      - ftpserver
-    env_file: .env
-    environment:
-      FTP_CONFIGURATION_KEY:
-      LOCAL_FTP_SERVER: "${LOCAL_FTP_SERVER}"
-      PY_CGI_PORT: "${PY_CGI_PORT}"
-      FTP_SUBMISSION_DEBUG_PORT: "${FTP_SUBMISSION_DEBUG_PORT}"
-      SUBMISSION_GIT_REPO: "${SUBMISSION_GIT_REPO}"
-      SUBMISSION_GIT_BRANCH: "${SUBMISSION_GIT_BRANCH}"
-    ports:
-      - "${PY_CGI_PORT}:${PY_CGI_PORT}"
-      - "${FTP_SUBMISSION_DEBUG_PORT}:${FTP_SUBMISSION_DEBUG_PORT}"
     networks:
       - front
 
