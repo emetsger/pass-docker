@@ -61,8 +61,8 @@ RUN apk update && \
     mkdir ${CATALINA_HOME}/webapps/fcrepo && \
     unzip ${CATALINA_HOME}/webapps/fcrepo.war -d ${CATALINA_HOME}/webapps/fcrepo  && \
     rm ${CATALINA_HOME}/webapps/fcrepo.war && \
-    wget -O ${CATALINA_HOME}/webapps/fcrepo/WEB-INF/lib/jms-addon-0.0.1.jar \
-            https://github.com/DataConservancy/fcrepo-jms/releases/download/jms-addon-0.0.1/jms-addon-0.0.1.jar && \
+    wget -O ${CATALINA_HOME}/webapps/fcrepo/WEB-INF/lib/jms-addon-0.0.2.jar \
+            https://github.com/DataConservancy/fcrepo-jms/releases/download/jms-addon-0.0.2/jms-addon-0.0.2.jar && \
     chmod 700 /bin/entrypoint.sh && \
     chmod 700 /bin/setup_fedora.sh
 
