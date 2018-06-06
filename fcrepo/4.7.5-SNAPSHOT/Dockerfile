@@ -66,7 +66,7 @@ RUN apk update && \
     chmod 700 /bin/entrypoint.sh && \
     chmod 700 /bin/setup_fedora.sh
 
- RUN export FCREPO_ACTIVEMQ_CONFIGURATION=classpath:/activemq-queue.xml && \
+RUN export FCREPO_ACTIVEMQ_CONFIGURATION=classpath:/activemq-queue.xml && \
     export FCREPO_JMS_BASEURL=http://${FCREPO_HOST}:${FCREPO_PORT}/fcrepo/rest && \
     /bin/entrypoint.sh startup.sh && \
     /bin/setup_fedora.sh http://127.0.0.1:${FCREPO_PORT}/${FCREPO_CONTEXT_PATH}/rest && \
