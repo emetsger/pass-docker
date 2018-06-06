@@ -41,6 +41,7 @@ services:
     container_name: ftpserver
     env_file: .env
     ports:
+      - "${FTP_PORT}:${FTP_PORT}"
     networks:
       - front
 
@@ -154,6 +155,16 @@ services:
   #  container_name: bootstrap
   #  networks:
   #    - back
+
+  deposit:
+    build: ./deposit-services/0.0.2-2.2-SNAPSHOT
+    image: oapass/deposit-services:0.0.2-2.2-SNAPSHOT
+    container_name: deposit
+    env_file: .env
+    ports:
+      - "${DEPOSIT_DEBUG_PORT}:5007"
+    networks:
+      - back
 
 volumes:
   passdata:
