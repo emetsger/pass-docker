@@ -13,6 +13,7 @@ FCREPO_ACTIVEMQ_CONFIGURATION=classpath:/config/activemq.xml \
 FCREPO_SPRING_CONFIGURATION=classpath:/spring/master.xml \
 FCREPO_MODESHAPE_CONFIGURATION=classpath:/pass-repository.json \
 FCREPO_JMS_CONFIGURATION=classpath:/spring/jms.xml \
+FCREPO_LOGBACK_LOCATION=webapps/fcrepo/WEB-INF/classes/logback.xml \
 FCREPO_PROPERTIES_MANAGEMENT=relaxed \
 SLF4J_VERSION=1.7.25 \
 DEBUG_PORT=5006 \
