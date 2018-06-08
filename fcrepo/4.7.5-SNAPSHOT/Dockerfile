@@ -53,9 +53,9 @@ RUN apk update && \
     wget -O ${CATALINA_HOME}/lib/jsonld-addon-filters-0.0.6-SNAPSHOT-shaded.jar \
         https://github.com/DataConservancy/fcrepo-jsonld/releases/download/0.0.6-SNAPSHOT/jsonld-addon-filters-0.0.6-SNAPSHOT-shaded.jar && \
     wget -O ${CATALINA_HOME}/lib/pass-authz-filters-shaded.jar \
-        https://github.com/OA-PASS/pass-authz/releases/download/0.0.2-SNAPSHOT/pass-authz-filters-0.0.2-SNAPSHOT-shaded.jar && \
+        https://github.com/OA-PASS/pass-authz/releases/download/0.0.3-SNAPSHOT/pass-authz-filters-0.0.3-SNAPSHOT-shaded.jar && \
     wget -O ${CATALINA_HOME}/webapps/pass-user-service.war \
-        https://github.com/OA-PASS/pass-authz/releases/download/0.0.2-SNAPSHOT/pass-user-service-0.0.2-SNAPSHOT.war && \
+        https://github.com/OA-PASS/pass-authz/releases/download/0.0.3-SNAPSHOT/pass-user-service-0.0.3-SNAPSHOT.war && \
     mkdir ${CATALINA_HOME}/webapps/pass-user-service && \
     unzip ${CATALINA_HOME}/webapps/pass-user-service.war -d ${CATALINA_HOME}/webapps/pass-user-service  && \
     rm ${CATALINA_HOME}/webapps/pass-user-service.war && \
