@@ -47,7 +47,7 @@ services:
 
   proxy:
     build: ./httpd-proxy/
-    image: oapass/httpd-proxy:20180518
+    image: oapass/httpd-proxy:20180608
     container_name: proxy
     networks:
      - front
@@ -101,7 +101,9 @@ services:
     ports:
       - "${DSPACE_PORT}:${DSPACE_PORT}"
     networks:
-      - back
+      back:
+        aliases:
+          - pass
 
   postgres:
     build: ./postgres/10.3
