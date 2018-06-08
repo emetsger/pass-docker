@@ -18,7 +18,8 @@ ARG ES_HOST
 ARG ES_PORT
 ARG DEPOSIT_DEBUG_PORT
 
-ENV DEPOSIT_SERVICES_VERSION=0.0.2 \
+ENV DEPOSIT_SERVICES_VERSION=0.0.3 \
+    JSONLD_CONTEXT_VERSION=2.2 \
     FCREPO_HOST=${FCREPO_HOST:-fcrepo} \
     FCREPO_PORT=${FCREPO_PORT:-8080} \
     FCREPO_JMS_PORT=${FCREPO_JMS_PORT:-61616} \
@@ -46,9 +47,9 @@ EXPOSE ${DEPOSIT_DEBUG_PORT}
 RUN apk update && \
     apk add --no-cache ca-certificates wget && \
     wget -O deposit-messaging.jar \
-        https://github.com/OA-PASS/nihms-submission/releases/download/deposit-services-${DEPOSIT_SERVICES_VERSION}/deposit-messaging-${DEPOSIT_SERVICES_VERSION}.jar
+        https://github.com/OA-PASS/nihms-submission/releases/download/deposit-services-${DEPOSIT_SERVICES_VERSION}/deposit-messaging-${DEPOSIT_SERVICES_VERSION}-${JSONLD_CONTEXT_VERSION}.jar
 
-#ADD deposit-messaging-${DEPOSIT_SERVICES_VERSION}.jar deposit-messaging.jar
+#ADD deposit-messaging-${DEPOSIT_SERVICES_VERSION}-${JSONLD_CONTEXT_VERSION}.jar deposit-messaging.jar
 
 ENTRYPOINT [ "java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-jar", "deposit-messaging.jar" ]
 CMD [ "listen" ]
