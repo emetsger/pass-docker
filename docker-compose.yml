@@ -55,6 +55,7 @@ services:
       - "${FTP_PORT}:${FTP_PORT}"
     networks:
       - front
+      - back
 
   proxy:
     build: ./httpd-proxy/
