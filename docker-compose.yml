@@ -53,6 +53,7 @@ services:
     env_file: .env
     ports:
       - "${FTP_PORT}:${FTP_PORT}"
+      - "30000-30010:30000-30010"
     networks:
       - front
       - back
