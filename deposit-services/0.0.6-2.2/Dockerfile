@@ -49,6 +49,10 @@ EXPOSE ${DEPOSIT_DEBUG_PORT}
 #    wget -O deposit-messaging.jar \
 #        https://github.com/OA-PASS/nihms-submission/releases/download/deposit-services-${DEPOSIT_SERVICES_VERSION}/deposit-messaging-${DEPOSIT_SERVICES_VERSION}-${JSONLD_CONTEXT_VERSION}.jar
 
+RUN touch /packagers.properties
+
+ADD packagers.properties /packagers.properties
+
 ADD deposit-messaging-${DEPOSIT_SERVICES_VERSION}-${JSONLD_CONTEXT_VERSION}.jar deposit-messaging.jar
 
 ENTRYPOINT [ "java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-jar", "deposit-messaging.jar" ]

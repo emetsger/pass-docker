@@ -175,10 +175,15 @@ services:
     image: oapass/deposit-services:0.0.6-2.2
     container_name: deposit
     env_file: .env
+    environment:
+      - PASS_DEPOSIT_TRANSPORT_CONFIGURATION=file:/packagers.properties
     ports:
       - "${DEPOSIT_DEBUG_PORT}:5007"
     networks:
       - back
+# To override packager configuration, create a file named './packagers.properties', edit to suit, and uncomment below
+#    volumes:
+#      - ./packagers.properties:/packagers.properties
 
 volumes:
   passdata:
