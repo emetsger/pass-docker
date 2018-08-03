@@ -5,7 +5,7 @@ services:
   fcrepo:
     build:
       context: ./fcrepo/4.7.5-SNAPSHOT
-    image: oapass/fcrepo:4.7.5-2.2-SNAPSHOT-13@sha256:b34b33a52de0eb62ea4295570b40dffe3121758ee2e8b1f9fbac5918035ec5d5
+    image: oapass/fcrepo:4.7.5-2.3-SNAPSHOT@sha256:0ac0d9639af2666747b213c505e48734215d1ee49b1614979980d8870a1d80ed
     container_name: fcrepo
     env_file: .env
     ports:
