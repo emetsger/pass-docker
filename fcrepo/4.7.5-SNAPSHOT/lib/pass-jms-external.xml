@@ -24,13 +24,13 @@
   <context:annotation-config/>
 
   <!-- publishes events from the internal bus to JMS -->
- <bean class="${fcrepo.jms.publisher:-org.fcrepo.jms.JMSTopicPublisher}">
-   <constructor-arg type="String" value="${fcrepo.jms.destination:-fedora}"/>
+ <bean class="${fcrepo.jms.publisher:org.fcrepo.jms.JMSTopicPublisher}">
+   <constructor-arg type="String" value="${fcrepo.jms.destination:fedora}"/>
  </bean>
 
   <bean id="connectionFactory"
         class="${fcrepo.connectionfactory:org.apache.activemq.ActiveMQConnectionFactory}">
-        <property name="brokerURL" value="${activemq.broker.uri:-tcp://localhost:61613}" />
+        <property name="brokerURL" value="${activemq.broker.uri:tcp://localhost:61613}" />
         <property name="userName" value="${activemq.broker.username:-}"/>
         <property name="password" value="${activemq.broker.password:-}"/>
   </bean>
