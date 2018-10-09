@@ -23,28 +23,22 @@
         },
         {
           "mech": "basic",
-          "username": "dspace-admin@oapass.org",
-          "password": "foobar",
-          "url": "https://dspace-prod.mse.jhu.edu:8080/"
-        },
-        {
-          "mech": "basic",
-          "username": "dspace-admin@oapass.org",
-          "password": "foobar",
-          "url": "http://${dspace.host}:${dspace.port}/swordv2"
+          "username": "${dspace.username}",
+          "password": "${dspace.password}",
+          "url": "${dspace.baseuri}/swordv2"
         }
       ],
       "protocol-binding": {
         "protocol": "SWORDv2",
-        "username": "dspace-admin@oapass.org",
-        "password": "foobar",
+        "username": "${dspace.username}",
+        "password": "${dspace.password}",
         "server-fqdn": "${dspace.host}",
         "server-port": "${dspace.port}",
-        "service-doc": "http://${dspace.host}:${dspace.port}/swordv2/servicedocument",
-        "default-collection": "http://${dspace.host}:${dspace.port}/swordv2/collection/123456789/2",
+        "service-doc": "${dspace.baseuri}/swordv2/servicedocument",
+        "default-collection": "${dspace.baseuri}/swordv2/collection/${dspace.collection.handle}",
         "on-behalf-of": null,
         "deposit-receipt": true,
-        "user-agent": "pass-deposit/x.y.z"
+        "user-agent": "pass-deposit/${deposit.services.version}"
       }
     }
   },
