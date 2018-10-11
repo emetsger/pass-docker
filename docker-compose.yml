@@ -187,19 +187,21 @@ services:
   #    - back
 
   deposit:
-    build: ./deposit-services/0.0.8-2.2
-    image: oapass/deposit-services:0.0.8-2.2@sha256:11acb89decc49581f63fc63f2c621272c627ad8a2a5719c0f1db5f047103ca0a
+    build: ./deposit-services/0.0.9-2.3
+    image: oapass/deposit-services:0.0.9-2.3@sha256:4b1b2d16246c5695d52b5b848a58216a440d3a3055dde43d365fce11437b3640
     container_name: deposit
     env_file: .env
     environment:
-      - PASS_DEPOSIT_TRANSPORT_CONFIGURATION=file:/packagers.properties
+      - PASS_DEPOSIT_REPOSITORY_CONFIGURATION=file:/repositories.json
     ports:
       - "${DEPOSIT_DEBUG_PORT}:5007"
     networks:
       - back
-# To override packager configuration, create a file named './packagers.properties', edit to suit, and uncomment below
+    links:
+      - dspace:pass.local
+# To override configuration, create a file named './repositories.json', edit to suit, and uncomment below
 #    volumes:
-#      - ./packagers.properties:/packagers.properties
+#      - ./repositories.json:/repositories.json
 
   authz:
     build: ./authz
