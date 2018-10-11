@@ -61,6 +61,14 @@ To configure the Docker images, open up the `.env` file and make any necessary c
 
   - DSPACE_HOST: the host name DSpace will use when generating HTTP responses, defaults to `localhost` (`docker-machine` users _must_ set this to the IP address of their docker-machine)
   - DSPACE_PORT: the port that DSpace and its applications are exposed on, defaults to port `8181`
+
+### Deposit-related variables
+
+- DSPACE_BASEURI: The baseURI (protocol, host, port) of the DSpace instance to deposit into (default: `http://pass.local:8181`)
+- DSPACE_USERNAME: DSpace username
+- DSPACE_PASSWORD: DSpace password
+- DSPACE_COLLECTION_HANDLE:  Handle of the collection to deposit into (default: `123456789/2`)
+
   
 ### Postgres-related variables
 
