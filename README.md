@@ -25,12 +25,12 @@ Configuring the Docker images allows you to:
 
 To configure the Docker images, open up the `.env` file and make any necessary changes.  A brief description of the variables are below:
 
-### Submission package-related variables
+### NIHMS Submission package-related variables
+-FTP_HOST: NIHMS ftp server
+-FTP_PORT: NIHMS ftp port (default 21)
+-FTP_USER: NIHMS ftp username
+-FTP_PASS: NIHMS FTP pasword
 
-  - PY_GGI_PORT: an empty HTTP `POST` to this port triggers the deposit of a dummy submission package to an FTP server 
-  - FTP_SUBMISSION_DEBUG_PORT: Used for Java debugging
-  - FTP_SERVER_PORT: The FTP command port, typically port 21
-  - The FTP submission code base will be downloaded and built from `SUBMISSION_GIT_REPO`, using the branch or tag defined in `SUBMISSION_GIT_BRANCH` 
 
 ### Ember application-related variables
   
