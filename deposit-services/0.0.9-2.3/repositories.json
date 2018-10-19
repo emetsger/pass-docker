@@ -17,12 +17,6 @@
       "auth-realms": [
         {
           "mech": "basic",
-          "username": "dspace-admin@oapass.org",
-          "password": "foobar",
-          "url": "https://jscholarship.library.jhu.edu/"
-        },
-        {
-          "mech": "basic",
           "username": "${dspace.username}",
           "password": "${dspace.password}",
           "url": "${dspace.baseuri}/swordv2"
