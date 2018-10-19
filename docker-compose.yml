@@ -187,8 +187,8 @@ services:
   #    - back
 
   deposit:
-    build: ./deposit-services/0.0.9-2.3
-    image: oapass/deposit-services:0.0.9-2.3@sha256:52ddd80ae45b09ee25ec9eedd4fca450b9d3fa230b97aec7206f9dad1702988f
+    build: deposit-services/0.0.9-2.3-1
+    image: oapass/deposit-services:0.0.9-2.3-1@sha256:4c5dfac603088a6d3d284b562ef56157e2550c4cb12f0a848d05f6cfdbb40fc1
     container_name: deposit
     env_file: .env
     environment:
