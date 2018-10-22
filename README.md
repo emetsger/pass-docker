@@ -26,11 +26,10 @@ Configuring the Docker images allows you to:
 To configure the Docker images, open up the `.env` file and make any necessary changes.  A brief description of the variables are below:
 
 ### NIHMS Submission package-related variables
--FTP_HOST: NIHMS ftp server
--FTP_PORT: NIHMS ftp port (default 21)
--FTP_USER: NIHMS ftp username
--FTP_PASS: NIHMS FTP pasword
-
+- FTP_HOST: NIHMS ftp server
+- FTP_PORT: NIHMS ftp port (default 21)
+- FTP_USER: NIHMS ftp username
+- FTP_PASS: NIHMS FTP password
 
 ### Ember application-related variables
   
@@ -100,6 +99,32 @@ To configure the Docker images, open up the `.env` file and make any necessary c
 - `ACTIVEMQ_JMS_PORT` Openwire wire protocol (ActiveMQ native) port e.g. `61616`
 - `ACTIVEMQ_STOMP_PORT`= STOMP wire protocol (text-based) port e.g. `61613`
 - `ACTIVEMQ_WEBCONSOLE_PORT`= HTTP port for the ActiveMQ web console (admin/admin) e.g. `8161`
+
+### Mail-related variables
+
+- `MAIL_SMTP`: Mail SMTP port, defaults to `11025`.  This variable really shouldn't be used.
+- `MAIL_IMAPS`: IMAP SSL/TLS Port, defaults to `11993`.  This is the port you should configure for an IMAP client to check for messages (_must use SSL or TLS_)
+- `MAIL_MSP`: Mail submission port, defaults to `11587`.  This is the port you should use when defining an SMTP mail relay for your application.  _Does not use SSL or TLS, and no authentication is required_
+- `OVERRIDE_HOSTNAME`: Set the hostname for the container, defaults to `mail.jhu.edu`.  (This is _not_ the value you use when configuring an email client to talk to the mail container, this is a variable used internally by the mail server itself)
+- `ENABLE_SPAMASSASSIN`: `1` enables SA, defaults to `0`.
+- `ENABLE_CLAMAV`: `1` enables CLAMAV, defaults to `0`. 
+- `ENABLE_FAIL2BAN`: `1` enables fail2ban, defaults to `0`.
+- `ENABLE_POSTGREY`: `1` enables postgrey, defaults to `0`.
+- `ENABLE_SASLAUTHD`: `1` enables SASL auth, defaults to `0`.
+- `SMTP_ONLY`: `1` launches postfix _only_, `0` launches postfix and other daemons.  Defaults to `0`
+- `ONE_DIR`: `1` places all configuration files in a single directory (useful for docker volumes).  Defaults to `1`.
+- `DMS_DEBUG`: Debug the `docker/mailserver`.  `1` enables debugging, defaults to `0`.
+- `ENABLE_LDAP`: Enables LDAP for postfix and dovecot, defaults to `1`.  Allows for the users LDIF maintained in the LDAP container to be used for email address resolution and delivery.
+- `TLS_LEVEL`: Allowed TLS ciphers, defaults to `intermediate` so that most modern IMAP clients can connect
+- `LDAP_SERVER_HOST`: the LDAP server hostname, defaults to `ldap`
+- `LDAP_SEARCH_BASE`: the base DN for executing LDAP searches for people, defaults to `ou=People,dc=pass`
+- `LDAP_BIND_DN`: the administrator DN, used to perform LDAP searches when binding as the user isn't an option, defaults to `cn=admin,dc=pass`
+- `LDAP_BIND_PW`: the adminstrator bind DN password
+- `LDAP_QUERY_FILTER_USER`: LDAP search filter for resolving potential email recipients, defaults to `(&(objectClass=posixAccount)(mail=%s))`
+- `LDAP_QUERY_FILTER_GROUP`: LDAP search filter for resolving potential mail groups, defaults to `(&(objectClass=posixAccount)(mailGroupMember=%s))`
+- `LDAP_QUERY_FILTER_ALIAS`: LDAP search filter for resolving potential mail aliases, defaults to `(&(objectClass=posixAccount)(mailAlias=%s))`
+- `LDAP_QUERY_FILTER_DOMAIN`: LDAP search filter for resolving domains the mail server answers to, defaults to `(|(mail=*@%s)(mailalias=*@%s)(mailGroupMember=*@%s))`
+- `POSTMASTER_ADDRESS`: The postmaster email address, defaults to `root`
 
 <h2><a id="build" href="#build">Building the Docker Images</a> (optional)</h2>
 

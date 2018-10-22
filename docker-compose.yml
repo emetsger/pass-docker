@@ -107,7 +107,7 @@ services:
 
   ldap:
     build: ./ldap/
-    image: oapass/ldap:20181012@sha256:813a0be4c301ade0d1f970fea5c51532ba5de90454aa406a5496169a564b0a5f
+    image: oapass/ldap:20181024@sha256:e9647247c0187011b5a7c5466103521b6640281bb74df650197b1603aed7e550
     container_name: ldap
     networks:
      - back
@@ -211,8 +211,31 @@ services:
     networks:
       - back
 
+  mail:
+    image: oapass/docker-mailserver:20181024@sha256:ad77f9a204e87fed850451314cadf1a184aad0782af05e01dfdf6049861ef577
+    hostname: mail
+    domainname: jhu.edu
+    container_name: mail
+    networks:
+      - back
+    ports:
+      - "${MAIL_SMTP}:25"
+      - "${MAIL_IMAPS}:993"
+      - "${MAIL_MSP}:587"
+    volumes:
+      - maildata:/var/mail
+      - mailstate:/var/mail-state
+      - ./mail/config/:/tmp/docker-mailserver/
+    env_file: .env
+    depends_on:
+      - ldap
+
 volumes:
   passdata:
+    driver: local
+  mailstate:
+    driver: local
+  maildata:
     driver: local
 
 networks:

@@ -6,10 +6,14 @@ userPassword: password
 description: LDAP administrator
 
 dn: uid=staff1,ou=People,dc=pass
+uid: staff1
+uidNumber: 7000
+gidNumber: 5000
 objectClass: organizationalPerson
 objectClass: person
 objectClass: top
 objectClass: inetOrgPerson
+objectClass: posixAccount
 givenName: Staff
 sn: Hasgrants
 cn: Staff Hasgrants
@@ -19,12 +23,17 @@ departmentNumber: 3PD4GS
 employeeNumber: 00017179
 displayName: Staff Hasgrants
 employeeType: STAFF
+homeDirectory: /home/staff1
 
 dn: uid=staff2,ou=People,dc=pass
+uid: staff2
+uidNumber: 7001
+gidNumber: 5000
 objectClass: organizationalPerson
 objectClass: person
 objectClass: top
 objectClass: inetOrgPerson
+objectClass: posixAccount
 givenName: Staff
 sn: Hasnogrants
 cn: Staff Hasnogrants
@@ -34,12 +43,17 @@ departmentNumber: FAKE0002
 employeeNumber: 1020304
 displayName: Staff Hasnogrants
 employeeType: STAFF
+homeDirectory: /home/staff2
 
 dn: uid=faculty1,ou=People,dc=pass
+uid: faculty1
+uidNumber: 7002
+gidNumber: 5000
 objectClass: organizationalPerson
 objectClass: person
 objectClass: top
 objectClass: inetOrgPerson
+objectClass: posixAccount
 givenName: Faculty
 sn: Hasgrants
 cn: Faculty Hasgrants
@@ -49,12 +63,17 @@ departmentNumber: UC8KV5
 employeeNumber: 00003343
 displayName: Faculty Hasgrants
 employeeType: FACULTY
+homeDirectory: /home/faculty1
 
 dn: uid=faculty2,ou=People,dc=pass
+uid: faculty2
+uidNumber: 7003
+gidNumber: 5000
 objectClass: organizationalPerson
 objectClass: person
 objectClass: top
 objectClass: inetOrgPerson
+objectClass: posixAccount
 givenName: Faculty
 sn: Hasnogrants
 cn: Faculty Hasnogrants
@@ -64,12 +83,17 @@ departmentNumber: FAKE0001
 employeeNumber: 2040608
 displayName: Faculty Hasnogrants
 employeeType: FACULTY
+homeDirectory: /home/faculty2
 
 dn: uid=nih-user,ou=People,dc=pass
+uid: nih-user
+uidNumber: 7004
+gidNumber: 5000
 objectClass: organizationalPerson
 objectClass: person
 objectClass: top
 objectClass: inetOrgPerson
+objectClass: posixAccount
 givenName: Nihu
 sn: Ser
 cn: Nihu Ser
@@ -79,12 +103,17 @@ departmentNumber: KYWJIT
 employeeNumber: 00001421
 displayName: Nihu Ser
 employeeType: FACULTY
+homeDirectory: /home/nih-user
 
 dn: uid=ed-user,ou=People,dc=pass
+uid: ed-user
+uidNumber: 7005
+gidNumber: 5000
 objectClass: organizationalPerson
 objectClass: person
 objectClass: top
 objectClass: inetOrgPerson
+objectClass: posixAccount
 givenName: Ed
 sn: User
 cn: Ed User
@@ -94,12 +123,17 @@ departmentNumber: FAKE0006
 employeeNumber: 00010090
 displayName: Ed User
 employeeType: FACULTY
+homeDirectory: /home/ed-user
 
 dn: uid=incomplete-nih-user,ou=People,dc=pass
+uid: incomplete-nih-user
+uidNumber: 7006
+gidNumber: 5000
 objectClass: organizationalPerson
 objectClass: person
 objectClass: top
 objectClass: inetOrgPerson
+objectClass: posixAccount
 givenName: Incomplete
 sn: Nihuser
 cn: Incomplete Nihuser
@@ -109,12 +143,17 @@ employeeNumber: 00023666
 departmentNumber: SDH72F
 displayName: Incomplete Nihuser
 employeeType: FACULTY
+homeDirectory: /home/incomplete-nih-user
 
 dn: uid=usaid-user,ou=People,dc=pass
+uid: usaid-user
+uidNumber: 7007
+gidNumber: 5000
 objectClass: organizationalPerson
 objectClass: person
 objectClass: top
 objectClass: inetOrgPerson
+objectClass: posixAccount
 givenName: Usai
 sn: Duser
 cn: Usai Duser
@@ -124,12 +163,17 @@ employeeNumber: 00003088
 departmentNumber: KYN456
 displayName: Usai Duser
 employeeType: FACULTY
+homeDirectory: /home/usaid-user
 
 dn: uid=admin,ou=People,dc=pass
+uid: admin
+uidNumber: 7008
+gidNumber: 5000
 objectClass: organizationalPerson
 objectClass: person
 objectClass: top
 objectClass: inetOrgPerson
+objectClass: posixAccount
 givenName: Grant
 sn: Admin
 cn: Grant Admin
@@ -139,12 +183,17 @@ departmentNumber: FAKE0003
 employeeNumber: 99000001
 displayName: Grant Admin
 employeeType: STAFF
+homeDirectory: /home/admin
 
 dn: uid=admin-submitter,ou=People,dc=pass
+uid: admin-submitter
+uidNumber: 7009
+gidNumber: 5000
 objectClass: organizationalPerson
 objectClass: person
 objectClass: top
 objectClass: inetOrgPerson
+objectClass: posixAccount
 givenName: Grant
 sn: Admin
 cn: Grant Admin
@@ -154,12 +203,17 @@ departmentNumber: FAKE0004
 employeeNumber: 99000002
 displayName: Grant Admin + Submitter
 employeeType: STAFF
+homeDirectory: /home/admin-submitter
 
 dn: uid=superuser,ou=People,dc=pass
+uid: superuser
+uidNumber: 7010
+gidNumber: 5000
 objectClass: organizationalPerson
 objectClass: person
 objectClass: top
 objectClass: inetOrgPerson
+objectClass: posixAccount
 givenName: Super
 sn: User
 cn: Superuser
@@ -169,5 +223,4 @@ departmentNumber: FAKE0005
 employeeNumber: 99000003
 displayName: Superuser
 employeeType: STAFF
-
-
+homeDirectory: /home/superuser
