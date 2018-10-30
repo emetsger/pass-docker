@@ -64,6 +64,9 @@
                             <queue physicalName="fedora"/>
                             <filteredDestination selector="(orgFcrepoJmsEventType LIKE '%http://fedora.info/definitions/v4/event#ResourceCreation%' OR orgFcrepoJmsEventType LIKE '%http://fedora.info/definitions/v4/event#ResourceModification%') AND orgFcrepoJmsResourceType LIKE '%http://oapass.org/ns/pass#Submission%'" queue="submission"/>
                             <filteredDestination selector="(orgFcrepoJmsEventType LIKE '%http://fedora.info/definitions/v4/event#ResourceCreation%' OR orgFcrepoJmsEventType LIKE '%http://fedora.info/definitions/v4/event#ResourceModification%') AND orgFcrepoJmsResourceType LIKE '%http://oapass.org/ns/pass#Deposit%'" queue="deposit"/>
+                            <filteredDestination
+                                    selector="orgFcrepoJmsEventType LIKE '%http://fedora.info/definitions/v4/event#ResourceCreation%' AND orgFcrepoJmsResourceType LIKE '%http://oapass.org/ns/pass#SubmissionEvent%'"
+                                    queue="event"/>
                         </forwardTo>
                     </compositeTopic>
                 </virtualDestinations>
