@@ -107,7 +107,7 @@ services:
 
   ldap:
     build: ./ldap/
-    image: oapass/ldap:20181024@sha256:e9647247c0187011b5a7c5466103521b6640281bb74df650197b1603aed7e550
+    image: oapass/ldap:20181029@sha256:25bf1917a8e34679b34d594a664f94af101699466f25d86b93bb05e7c53f4375
     container_name: ldap
     networks:
      - back

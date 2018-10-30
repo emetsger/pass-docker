@@ -224,3 +224,43 @@ employeeNumber: 99000003
 displayName: Superuser
 employeeType: STAFF
 homeDirectory: /home/superuser
+
+dn: uid=notification-prod-cc,ou=People,dc=pass
+uid: notification-prod-cc
+uidNumber: 7011
+gidNumber: 5000
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: posixAccount
+givenName: Notification Prod
+sn: Prod
+cn: Notification Prod CC
+mail: notification-prod-cc@jhu.edu
+userPassword: moo
+departmentNumber: FAKE0005
+employeeNumber: 99000003
+displayName: Notification Prod
+employeeType: STAFF
+homeDirectory: /home/nprodcc
+
+dn: uid=notification-demo-cc,ou=People,dc=pass
+uid: notification-demo-cc
+uidNumber: 7012
+gidNumber: 5000
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: posixAccount
+givenName: Notification Demo
+sn: Demo
+cn: Notification Demo CC
+mail: notification-demo-cc@jhu.edu
+userPassword: moo
+departmentNumber: FAKE0005
+employeeNumber: 99000003
+displayName: Notification Demo
+employeeType: STAFF
+homeDirectory: /home/ndemocc
