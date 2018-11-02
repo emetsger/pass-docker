@@ -1,0 +1,67 @@
+{
+  "fcrepo/rest/repositories/41/96/0a/92/41960a92-d3f8-4616-86a6-9e9cadc1a269": {
+    "deposit-config": {
+      "processing": {
+        "beanName": "org.dataconservancy.pass.deposit.messaging.status.DefaultDepositStatusProcessor"
+      },
+      "mapping": {
+        "http://dspace.org/state/archived": "accepted",
+        "http://dspace.org/state/withdrawn": "rejected",
+        "default-mapping": "submitted"
+      }
+    },
+    "assembler": {
+      "specification": "http://purl.org/net/sword/package/METSDSpaceSIP"
+    },
+    "transport-config": {
+      "auth-realms": [
+        {
+          "mech": "basic",
+          "username": "${dspace.username}",
+          "password": "${dspace.password}",
+          "url": "${dspace.baseuri}/swordv2"
+        }
+      ],
+      "protocol-binding": {
+        "protocol": "SWORDv2",
+        "username": "${dspace.username}",
+        "password": "${dspace.password}",
+        "server-fqdn": "${dspace.host}",
+        "server-port": "${dspace.port}",
+        "service-doc": "${dspace.baseuri}/swordv2/servicedocument",
+        "default-collection": "${dspace.baseuri}/swordv2/collection/${dspace.collection.handle}",
+        "on-behalf-of": null,
+        "deposit-receipt": true,
+        "user-agent": "pass-deposit/${deposit.services.version}"
+      }
+    }
+  },
+  "fcrepo/rest/repositories/77/64/12/ec/776412ec-0f5e-488e-97dc-15bb427d27e2": {
+    "deposit-config": {
+      "processing": {
+      },
+      "mapping": {
+        "INFO": "accepted",
+        "ERROR": "rejected",
+        "WARN": "rejected",
+        "default-mapping": "submitted"
+      }
+    },
+    "assembler": {
+      "specification": "nihms-native-2017-07"
+    },
+    "transport-config": {
+      "protocol-binding": {
+        "protocol": "ftp",
+        "username": "${ftp.user}",
+        "password": "${ftp.pass}",
+        "server-fqdn": "${ftp.host}",
+        "server-port": "${ftp.port}",
+        "data-type": "binary",
+        "transfer-mode": "stream",
+        "use-pasv": true,
+        "default-directory": "/logs/upload/%s"
+      }
+    }
+  }
+}

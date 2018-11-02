@@ -33,7 +33,7 @@ ENV DEPOSIT_SERVICES_VERSION=0.1.0 \
     PASS_FEDORA_USER=${PASS_FEDORA_USER:-fedoraAdmin} \
     PASS_FEDORA_PASSWORD=${PASS_FEDORA_PASSWORD:-moo} \
     PASS_ELASTICSEARCH_LIMIT=${PASS_ELASTICSEARCH_LIMIT:-100} \
-    PASS_DEPOSIT_TRANSPORT_CONFIGURATION=${PASS_DEPOSIT_TRANSPORT_CONFIGURATION:-classpath:/packagers.properties}
+    PASS_DEPOSIT_REPOSITORY_CONFIGURATION=${PASS_DEPOSIT_REPOSITORY_CONFIGURATION:-classpath:/repositories.json}
 
 ENV JAVA_TOOL_OPTIONS -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=${DEPOSIT_DEBUG_PORT}
 
@@ -52,9 +52,9 @@ RUN apk update && \
     wget -O deposit-messaging.jar \
         https://github.com/OA-PASS/nihms-submission/releases/download/deposit-services-${DEPOSIT_SERVICES_VERSION}/deposit-messaging-${DEPOSIT_SERVICES_VERSION}-${JSONLD_CONTEXT_VERSION}.jar
 
-RUN touch /packagers.properties
+RUN touch /repositories.json
 
-ADD packagers.properties /packagers.properties
+ADD repositories.json /repositories.json
 
 #ADD deposit-messaging-${DEPOSIT_SERVICES_VERSION}-${JSONLD_CONTEXT_VERSION}.jar deposit-messaging.jar
 
