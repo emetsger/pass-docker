@@ -188,7 +188,7 @@ services:
 
   deposit:
     build: ./deposit-services/0.1.0-3.2
-    image: oapass/deposit-services:0.1.0-3.2
+    image: oapass/deposit-services:0.1.0-3.2@sha256:68bce9938c4999ed3d045576e9c0ef3f65b730ec745d24db89400e3aa31484b1
     container_name: deposit
     env_file: .env
     environment:
