@@ -119,6 +119,29 @@ To configure the Docker images, open up the `.env` file and make any necessary c
 - `LDAP_QUERY_FILTER_DOMAIN`: LDAP search filter for resolving domains the mail server answers to, defaults to `(|(mail=*@%s)(mailalias=*@%s)(mailGroupMember=*@%s))`
 - `POSTMASTER_ADDRESS`: The postmaster email address, defaults to `root`
 
+### Setting up a mail client
+
+In order to view notifications sent by Notification Services (NS), you must configure an IMAP client to communicate with the mail server run in `pass-docker`.
+
+Briefly, you should use the following settings:
+- IMAP server: the IP address of the docker host (e.g. `192.168.99.100` for docker-machine users, or `localhost` for others)
+- IMAP port: `11993`
+- You _must_ use secure IMAP (SSL).  Some clients combine SSL with TLS (e.g. "SSL/TLS"), others make it an explicit choice.  If you have a choice, use SSL.  Otherwise chose the option that includes SSL.
+
+Each email address listed in LDAP is allowed to login and receive email.  The username for IMAP login is the same as the user's email address.  For example, if you wanted to log in and check the email for `staff1`, the IMAP user name would be `staffWithGrants@jhu.edu`.  The IMAP username for `faculty2` would be `facultyWithNoGrants@jhu.edu`.  You can configure an account for every IMAP user if you wish, but if you know you'll only be testing with two or three LDAP users, then you only need to configure IMAP accounts for the users you are testing with.
+
+If you wish, you can configure an outgoing SMTP server, but that is not necessary for testing NS
+- Outgoing SMTP server: the IP address of the docker host (e.g. `192.168.99.100` for docker-machine users, or `localhost` for others)
+- Outgoing SMTP port: `11587`
+- Do *not* use SSL or TLS
+- No username or password is required (do not use SMTP auth)
+
+**Note:** Sometimes there is trouble when initially connecting to the mail server using IMAP SSL.  You must be able to accept a fake certificate in your mail reader before continuing to communicate with the IMAP server.  This is sometimes problematic.  For example, in Mac Mail, it takes a long time (2-3 minutes?) for Mac Mail to prompt for the acceptance of the SSL certificate.  This behavior may be related to issue [45](https://github.com/OA-PASS/notification-services/issues/45).  The hostname presented by the SSL certificate is not an RFC-valid DNS hostname, and may cause some trouble.  
+
+The Mac Mail "Connection Doctor", combined with the log output from the `pass-docker` `mail` container (`docker logs mail`) can help troubleshoot the underlying problem.
+
+When initially setting up accounts in Mac Mail, be sure to double-check the IMAP connection parameters (hostname, port, SSL) before digging deeper.  The initial account setup dialog for Mac Mail is not intuitive, and takes a bit of persistence to get set up with the correct parameters.
+
 <h2><a id="build" href="#build">Building the Docker Images</a> (optional)</h2>
 
 If the images deployed to Docker Hub are up-to-date, then you do not need to build the images.
