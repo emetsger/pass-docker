@@ -8,6 +8,15 @@
         "${pass.notification.demo.global.cc.address}"
       ],
       "whitelist": [
+        "mailto:superuser@jhu.edu",
+        "mailto:grant-admin-submitter@jhu.edu",
+        "mailto:grant-admin@jhu.edu",
+        "mailto:usaiduser@jhu.edu",
+        "mailto:incompletenihuser@jhu.edu",
+        "mailto:eduser@jhu.edu",
+        "mailto:nihuser@jhu.edu",
+        "mailto:facultyWithNoGrants@jhu.edu",
+        "mailto:facultyWithGrants@jhu.edu",
         "mailto:staffWithGrants@jhu.edu",
         "mailto:staffWithNoGrants@jhu.edu"
       ]
