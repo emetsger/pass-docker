@@ -210,7 +210,7 @@ services:
       - back
 
   mail:
-    image: oapass/docker-mailserver:20181029@sha256:10f1a98d8f5b565f2791aa136a5e1c5530cee56bc55e40cd32d2875021b94390
+    image: oapass/docker-mailserver:20181105@sha256:4dc4d836cfd5fbcbc7819a2f1195366e0fb5d0436b4d632f6a14b9251766a6b3
     hostname: mail
     domainname: jhu.edu
     container_name: mail
