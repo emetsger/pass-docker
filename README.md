@@ -119,6 +119,74 @@ To configure the Docker images, open up the `.env` file and make any necessary c
 - `LDAP_QUERY_FILTER_DOMAIN`: LDAP search filter for resolving domains the mail server answers to, defaults to `(|(mail=*@%s)(mailalias=*@%s)(mailGroupMember=*@%s))`
 - `POSTMASTER_ADDRESS`: The postmaster email address, defaults to `root`
 
+### Notification Services Environment
+
+The environment variables for Notification Services are a function of what is present in the [application.properties](https://github.com/OA-PASS/notification-services/blob/master/notification-boot/src/main/resources/application.properties), and what is present in the [notification.json configuration file](notification-services/0.0.1-3.2) for `pass-docker`.
+
+Defaults provided by the `pass-docker` environment override defaults provided in the `application.properties`.
+
+#### Spring-Boot application.properties Environment
+
+Supported environment variables (system property analogs) and default values are:
+
+- `SPRING_ACTIVEMQ_BROKER_URL` (`spring.activemq.broker-url`): URL used to connect to ActiveMQ for receiving JMS messages (`${activemq.broker.uri:tcp://${jms.host:localhost}:${jms.port:61616}}`)
+- `SPRING_JMS_LISTENER_CONCURRENCY` (`spring.jms.listener.concurrency`): number of JMS listeners to start- one thread per listener (`4`)
+- `SPRING_JMS_LISTENER_AUTO_STARTUP` (`spring.jms.listener.auto-startup`): whether JMS listeners should be started on boot (`true`)
+- `PASS_NOTIFICATION_QUEUE_EVENT_NAME` (`pass.notification.queue.event.name`): the JMS queue listened to by NS (`event`)
+- `PASS_FEDORA_USER` (`pass.fedora.user`): user used to connect to the Fedora repository REST API (`fedoraAdmin`)
+- `PASS_FEDORA_PASSWORD` (`pass.fedora.password`): password used to connect to the Fedora repository REST API (`moo`)
+- `PASS_FEDORA_BASEURL` (`pass.fedora.baseurl`): base URL of the Fedora repository REST API (`http://${fcrepo.host:localhost}:${fcrepo.port:8080}/fcrepo/rest/`)
+- `PASS_ELASTICSEARCH_URL` (`pass.elasticsearch.url`): base URL of the ElasticSearch API for the PASS index (`http://${es.host:localhost}:${es.port:9200}/pass`)
+- `PASS_ELASTICSEARCH_LIMIT` (`pass.elasticsearch.limit`): number of records retrieved by default when performing a search of the index (`100`)
+- `PASS_NOTIFICATION_MODE` (`pass.notification.mode`): runtime mode of Notification Services, one of `DISABLED`, `DEMO`, `PRODUCTION` (`DEMO`)
+- `PASS_NOTIFICATION_SMTP_HOST` (`pass.notification.smtp.host`): SMTP server used by NS to send email (`${pass.notification.smtp.host:localhost}`)
+- `PASS_NOTIFICATION_SMTP_PORT` (`pass.notification.smtp.port`): SMTP port used by NS to send email (`${pass.notification.smtp.port:587}`)
+- `PASS_NOTIFICATION_SMTP_USER` (`pass.notification.smtp.user`): user used to connect to the SMTP relay (`<empty string>`)
+- `PASS_NOTIFICATION_SMTP_PASS` (`pass.notification.smtp.pass`): password used to connect to the SMTP relay (`<empty string>`)
+- `PASS_NOTIFICATION_SMTP_TRANSPORT` (`pass.notification.smtp.transport`): transport used to communicate with the SMTP relay, one of `SMTP`, `SMTPS`, `SMTP_TLS` (`${pass.notification.smtp.transport:SMTP}`)  
+- `PASS_NOTIFICATION_MAILER_DEBUG` (`pass.notification.mailer.debug`): enable debugging for the Java Mail API (`false`)
+- `PASS_NOTIFICATION_CONFIGURATION` (`pass.notification.configuration`): location of the Notification Service runtime configuration file (`classpath:/notification.json`)
+- `PASS_NOTIFICATION_HTTP_AGENT` (`pass.notification.http.agent`): user agent string used by the PASS Java Client when communicating with the Fedora repository or ES (`pass-notification/x.y.z`)
+
+#### pass-docker Environment
+
+- `NOTIFICATION_DEBUG_PORT`: port for attaching a remote debugger to the JVM (`5011`)
+- `PASS_NOTIFICATION_QUEUE_EVENT_NAME`: the JMS queue listened to by NS (`Consumer.event.VirtualTopic.pass.docker`)
+- `PASS_NOTIFICATION_MODE`: runtime mode of Notification Services, one of `DISABLED`, `DEMO`, `PRODUCTION` (`DEMO`)
+- `PASS_NOTIFICATION_CONFIGURATION`: location of the Notification Service runtime configuration file (`file:/notification.json`)
+- `PASS_NOTIFICATION_SMTP_HOST`: SMTP server used by NS to send email (`mail`)
+- `PASS_NOTIFICATION_SMTP_PORT`: SMTP port used by NS to send email (`587`)
+- `PASS_NOTIFICATION_SMTP_USER`: user used to connect to the SMTP relay (`<empty string>`)
+- `PASS_NOTIFICATION_SMTP_PASS`: password used to connect to the SMTP relay (`<empty string>`)
+- `PASS_NOTIFICATION_SMTP_TRANSPORT`:  transport used to communicate with the SMTP relay, one of `SMTP`, `SMTPS`, `SMTP_TLS` (`SMTP`)
+
+- `PASS_NOTIFICATION_TEMPLATE_APPROVAL_INVITE_SUBJECT`: Spring Resource URI for `SUBMISSION_APPROVAL_INVITE` email subject (`file:/templates/approval-invite-subject.hbr`)
+- `PASS_NOTIFICATION_TEMPLATE_APPROVAL_INVITE_BODY`: Spring Resource URI for `SUBMISSION_APPROVAL_INVITE` email body (`file:/templates/approval-invite-body.hbr`)
+- `PASS_NOTIFICATION_TEMPLATE_APPROVAL_INVITE_FOOTER`: Spring Resource URI for `SUBMISSION_APPROVAL_INVITE` email footer (`file:/templates/footer.hbr`)
+
+- `PASS_NOTIFICATION_TEMPLATE_APPROVAL_REQUESTED_SUBJECT`: Spring Resource URI for `SUBMISSION_APPROVAL_REQUESTED` email subject (`file:/templates/approval-requested-subject.hbr`)
+- `PASS_NOTIFICATION_TEMPLATE_APPROVAL_REQUESTED_BODY`: Spring Resource URI for `SUBMISSION_APPROVAL_REQUESTED` email body (`file:/templates/pproval-requested-body.hbr`)
+- `PASS_NOTIFICATION_TEMPLATE_APPROVAL_REQUESTED_FOOTER`: Spring Resource URI for `SUBMISSION_APPROVAL_REQUESTED` email footer (`file:/templates/footer.hbr`)
+
+- `PASS_NOTIFICATION_TEMPLATE_CHANGES_REQUESTED_SUBJECT`: Spring Resource URI for `SUBMISSION_CHANGES_REQUESTED` email subject (`file:/templates/changes-requested-subject.hbr`)
+- `PASS_NOTIFICATION_TEMPLATE_CHANGES_REQUESTED_BODY`: Spring Resource URI for `SUBMISSION_CHANGES_REQUESTED` email body (`file:/templates/changes-requested-body.hbr`)
+- `PASS_NOTIFICATION_TEMPLATE_CHANGES_REQUESTED_FOOTER`: Spring Resource URI for `SUBMISSION_CHANGES_REQUESTED` email footer (`file:/templates/footer.hbr`)
+
+- `PASS_NOTIFICATION_TEMPLATE_SUBMISSION_SUBMITTED_SUBJECT`: Spring Resource URI for `SUBMISSION_SUBMISSION_SUBMITTED` email subject (`file:/templates/submission-submitted-subject.hbr`)
+- `PASS_NOTIFICATION_TEMPLATE_SUBMISSION_SUBMITTED_BODY`: Spring Resource URI for `SUBMISSION_SUBMISSION_SUBMITTED` email body (`file:/templates/submission-submitted-body.hbr`)
+- `PASS_NOTIFICATION_TEMPLATE_SUBMISSION_SUBMITTED_FOOTER`: Spring Resource URI for `SUBMISSION_SUBMISSION_SUBMITTED` email footer (`file:/templates/footer.hbr`)
+
+- `PASS_NOTIFICATION_TEMPLATE_SUBMISSION_CANCELLED_SUBJECT`: Spring Resource URI for `SUBMISSION_SUBMISSION_CANCELLED` email subject (`file:/templates/submission-cancelled-subject.hbr`)
+- `PASS_NOTIFICATION_TEMPLATE_SUBMISSION_CANCELLED_BODY`: Spring Resource URI for `SUBMISSION_SUBMISSION_CANCELLED` email body (`file:/templates/submission-cancelled-body.hbr`)
+- `PASS_NOTIFICATION_TEMPLATE_SUBMISSION_CANCELLED_FOOTER`: Spring Resource URI for `SUBMISSION_SUBMISSION_CANCELLED` email footer (`file:/templates/footer.hbr`)
+
+- `PASS_NOTIFICATION_DEMO_FROM_ADDRESS`: From email address for all notifications send in `DEMO` mode (`noreply@pass.jh.edu`)
+- `PASS_NOTIFICATION_DEMO_GLOBAL_CC_ADDRESS`: Global carbon copy email address for all notifications sent in `DEMO` mode (`notification-demo-cc@jhu.edu`)
+
+- `PASS_NOTIFICATION_PRODUCTION_FROM_ADDRESS`: From email address for all notifications send in `PRODUCTION` mode (`noreply@pass.jh.edu`)
+- `PASS_NOTIFICATION_PRODUCTION_GLOBAL_CC_ADDRESS`:  Global carbon copy email address for all notifications sent in `PRODUCTION` mode `(<empty string>)`
+
+
 ### Setting up a mail client
 
 In order to view notifications sent by Notification Services (NS), you must configure an IMAP client to communicate with the mail server run in `pass-docker`.
