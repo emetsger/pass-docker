@@ -192,7 +192,7 @@ services:
     container_name: deposit
     env_file: .env
     environment:
-      - PASS_DEPOSIT_TRANSPORT_CONFIGURATION=file:/packagers.properties
+      - PASS_DEPOSIT_REPOSITORY_CONFIGURATION=file:/repositories.json
     ports:
       - "${DEPOSIT_DEBUG_PORT}:5007"
     networks:
