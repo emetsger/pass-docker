@@ -19,11 +19,10 @@ ENV NOTIFICATION_SERVICES_VERSION=0.0.1-3.2 \
     NOTIFICATION_OPTS=""
 
 RUN apk update && \
-    apk add --no-cache wget
-#    wget -O deposit-messaging.jar \
-#        https://github.com/OA-PASS/nihms-submission/releases/download/deposit-services-${DEPOSIT_SERVICES_VERSION}/deposit-messaging-${DEPOSIT_SERVICES_VERSION}-${JSONLD_CONTEXT_VERSION}.jar
+    apk add --no-cache wget && \
+    wget -O notification-services.jar \
+        http://repo1.maven.org/maven2/org/dataconservancy/pass/notify/notification-boot/${NOTIFICATION_SERVICES_VERSION}/notification-boot-${NOTIFICATION_SERVICES_VERSION}-exec.jar
 
-COPY notification-services.jar /
 COPY entrypoint.sh /
 
 RUN chmod 700 /entrypoint.sh
