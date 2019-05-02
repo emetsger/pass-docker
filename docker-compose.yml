@@ -187,8 +187,8 @@ services:
   #    - back
 
   deposit:
-    build: ./deposit-services/0.1.0-3.2
-    image: oapass/deposit-services:0.1.0-3.2-1@sha256:fbe0f70af890ab97a0b2ab6c8d3ad058f7117d81c029b0a1980d037e9a7adc33
+    build: ./deposit-services/1.0.0-3.4
+    image: oapass/deposit-pass-docker:1.0.0-3.4-SNAPSHOT
     container_name: deposit
     env_file: .env
     environment:
@@ -197,8 +197,6 @@ services:
       - "${DEPOSIT_DEBUG_PORT}:5007"
     networks:
       - back
-    links:
-      - dspace:pass.local
 # To override configuration, create a file named './repositories.json', edit to suit, and uncomment below
 #    volumes:
 #      - ./packagers.properties:/packagers.properties
