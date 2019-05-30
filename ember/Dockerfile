@@ -14,6 +14,8 @@ ENV EMBER_GIT_BRANCH=${EMBER_GIT_BRANCH:-master} \
     FEDORA_ADAPTER_USER="" \
     USER_SERVICE_URL=/pass-user-service/whoami \
     SCHEMA_SERVICE_URL=/schemaservice \
+    DOI_SERVICE_URL=/doiservice/journal \
+    POLICY_SERVICE_URL=/policies \
     EMBER_ROOT_URL=${EMBER_ROOT_URL:-/app/}
 
 RUN apk add --no-cache nodejs-npm git && \
