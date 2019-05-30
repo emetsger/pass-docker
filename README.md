@@ -37,7 +37,7 @@ To configure the Docker images, open up the `.env` file and make any necessary c
   - The Ember code base will be downloaded and built from `EMBER_GIT_REPO`, using the branch or tag defined in `EMBER_GIT_BRANCH`
   - DOI_SERVICE_URL: The relative URL of the DOI service, used at `ember` image _build time_, not run time (default: `/doiservice/journal`)
   - POLICY_SERVICE_URL: The relative URL of the schema service, used at `ember` image _build time_, not run time (default: `/policyservice`)
-  - USER_SERVICE_URL: The relative URL of the user service, used at `ember` image _build time_, not run time (default: `/pass-user-service`)
+  - USER_SERVICE_URL: The relative URL of the user service, used at `ember` image _build time_, not run time (default: `/pass-user-service/whoami`)
 
 
 ### Fedora-related variables
