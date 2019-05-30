@@ -104,11 +104,14 @@ A [full](https://github.com/OA-PASS/deposit-services#production-configuration-va
 - PASS_FEDORA_BASEURL: Internal (private) PASS baseurl (e.g. http://localhost:8080/fcrepo/rest)
 - PASS_FEDORA_USER:  Username for basic auth to Fedora (default: "fedoraAdmin")
 - PASS_FEDORA_PASSWORD: Password for basic auth to Fedora (default: "moo")
-- SCHEMA_SERVICE_PORT: The port the schema service is served on (default: random)
+- SCHEMA_SERVICE_PORT: The port the schema service is served on (default: `8086`)
+- SCHEMA_SERVICE_URL: The public URL of the schema service (e.g. `https://pass.local:8086`)
 
 ### DOI service variables
 The service will look for an environment variable called PASS_DOI_SERVICE_MAILTO to specify a value on the User-Agent header on the Crossref request. If not present, the default is pass@jhu.edu. The service will require the following environment variables for the java client for Fedora if the defaults are not to be used:
 
+- DOI_SERVICE_URL: The public URL of the DOI service (e.g. `https://pass.local:8090/doiservice/journal`)
+- DOI_SERVICE_PORT: The port the DOI service is served on (default: `8090`)
 - PASS_FEDORA_USER
 - PASS_FEDORA_PASSWORD
 - PASS_FEDORA_BASEURL
@@ -123,7 +126,8 @@ In addition we need PASS_EXTERNAL_FEDORA_BASEURL to be present to translate inte
 - PASS_FEDORA_BASEURL: Internal (private) PASS baseurl (e.g. http://localhost:8080/fcrepo/rest)
 - PASS_FEDORA_USER:  Username for basic auth to Fedora (default: "fedoraAdmin")
 - PASS_FEDORA_PASSWORD: Password for basic auth to Fedora (default: "moo")
-- POLICY_SERVICE_PORT: The port the schema service is served on (default: random)
+- POLICY_SERVICE_PORT: The port the schema service is served on (default: `8088`)
+- POLICY_SERVICE_URL: The public URL of the schema service (e.g. `http://pass.local:8088/policyservice`)
 - POLICY_FILE: Location of the policy DSL file.  Baked-in values are `docker.json` (default), and `aws.json` (works in the AWS environment)
 
 ### Authz service variables
