@@ -3,6 +3,10 @@ FROM alpine:3.7 as ember-builder
 ARG EMBER_GIT_REPO
 ARG EMBER_GIT_BRANCH
 ARG EMBER_ROOT_URL
+ARG USER_SERVICE_URL
+ARG SCHEMA_SERVICE_URL
+ARG DOI_SERVICE_URL
+ARG POLICY_SERVICE_URL
 
 ENV EMBER_GIT_BRANCH=${EMBER_GIT_BRANCH:-master} \
     EMBER_GIT_REPO=${EMBER_GIT_REPO:-https://github.com/OA-PASS/pass-ember} \
@@ -25,6 +29,8 @@ RUN apk add --no-cache nodejs-npm git && \
     git checkout ${EMBER_GIT_BRANCH} && \
     npm install && \
     npm install -g ember-cli && \
+    echo "Build environment: " && \
+    env | sort && \
     ember build --environment=production
 
 FROM nginx:1.13.12-alpine
