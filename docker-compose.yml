@@ -118,7 +118,7 @@ services:
 
   sp:
     build: ./sp/2.6.1
-    image: oapass/sp:201900508@sha256:94eb4796da7bed604468e295422be23c94f0119591fb37e11b40ce0376bca49f
+    image: oapass/sp:20190614
     container_name: sp
     networks:
      - back
