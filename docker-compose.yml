@@ -127,7 +127,7 @@ services:
 
   dspace:
     build: ./dspace/6.2
-    image: oapass/dspace@sha256:ead59d2f598fd04e28e381448f9128a72def497e351124f74b78cf3ac9de757a
+    image: oapass/dspace:20190624@sha256:db7a4fe9e2b0a261881a368a5ad43fab82a77a6fc66e95ab56f5f8b0bf6d21fe
     container_name: dspace
     env_file: .env
     ports:

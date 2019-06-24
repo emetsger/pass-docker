@@ -94,6 +94,36 @@ function import_communities_and_collections() {
     return 0
 }
 
+function create_dash_metadata_schema() {
+    # dash.funder.award
+    # dash.funder.identifier
+    # dash.funder.name
+
+    local DASH_SCHEMA_NAMESPACE=http://dash.harvard.edu
+    local DASH_SCHEMA_SHORTID=dash
+    local SCHEMA_REGISTRY_TABLE=metadataschemaregistry
+    local FIELD_REGISTRY_TABLE=metadatafieldregistry
+
+    local DASH_SCHEMA_PRESENT=`perform_query "SELECT count(*) from ${SCHEMA_REGISTRY_TABLE} WHERE short_id = '${DASH_SCHEMA_SHORTID}'" | sed -n 3p | sed -e 's: ::g'`
+    if [ ${DASH_SCHEMA_PRESENT:-0} == 0 ] ;
+    then
+        (>&2 echo ">>> Initializing DASH Schema ...")
+        perform_query "INSERT INTO ${SCHEMA_REGISTRY_TABLE} (namespace, short_id) VALUES ('${DASH_SCHEMA_NAMESPACE}', '${DASH_SCHEMA_SHORTID}')"
+    fi
+
+    local DASH_SCHEMA_ID=`perform_query "SELECT metadata_schema_id from ${SCHEMA_REGISTRY_TABLE} WHERE short_id = '${DASH_SCHEMA_SHORTID}'" | sed -n 3p | sed -e 's: ::g'`
+    local DASH_METADATA_ELEMENTS=`perform_query "SELECT count(*) from ${FIELD_REGISTRY_TABLE} WHERE metadata_schema_id = '${DASH_SCHEMA_ID}'" | sed -n 3p | sed -e 's: ::g'`
+
+    if [ ${DASH_METADATA_ELEMENTS:-0} == 0 ] ;
+    then
+        (>&2 echo ">>> Initializing ${DASH_SCHEMA_SHORTID} metadata registry ...")
+        perform_query "INSERT INTO ${FIELD_REGISTRY_TABLE} (metadata_schema_id, element, qualifier) VALUES ('${DASH_SCHEMA_ID}', 'funder', 'award')"
+        perform_query "INSERT INTO ${FIELD_REGISTRY_TABLE} (metadata_schema_id, element, qualifier) VALUES ('${DASH_SCHEMA_ID}', 'funder', 'identifier')"
+        perform_query "INSERT INTO ${FIELD_REGISTRY_TABLE} (metadata_schema_id, element, qualifier) VALUES ('${DASH_SCHEMA_ID}', 'funder', 'name')"
+    fi
+    return 0
+}
+
 function create_local_metadata_schema() {
     local FIELD_REGISTRY_TABLE=metadatafieldregistry
     local LOCAL_SCHEMA_ID=4
@@ -132,6 +162,9 @@ import_communities_and_collections
 
 # Create local metadata schema used to carry embargo metadata fields
 create_local_metadata_schema
+
+# Create the Harvard DASH metadata schema
+create_dash_metadata_schema
 
 # Start jetty
 cd ${WORKDIR}
