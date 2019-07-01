@@ -1,4 +1,17 @@
-# Deposit Services Docker Images
+# Deposit Services
+
+## Version 1.1.0-3.4
+
+Version 1.1.0-3.4 is the first release of Deposit Services that utilizes Package Providers.  It supports version [3.4][13] of the JSON-LD context (uses [version 0.6.0 of the PASS Java Client][14])
+
+Includes the following package providers (version [0.0.1][12]):
+- [JScholarship][9]
+- [NIH (a.k.a PMC)][10]
+- [BagIt][11]
+
+The runtime configuration file included in this image configures JScholarship and NIH (PMC).  
+
+## Docker Images
 
 Deposit Services is composed of a hierarchy of images:
 
@@ -74,3 +87,9 @@ Next, `jhu-package-providers` is released with the `maven-release-plugin`, and d
 [6]: ./repositories.json
 [7]: https://github.com/OA-PASS/deposit-services/blob/master/.travis.yml#L30
 [8]: https://github.com/OA-PASS/deposit-services/blob/master/trigger-dependent-build
+[9]: https://github.com/OA-PASS/jhu-package-providers/tree/0.0.1/jscholarship-package-provider
+[10]: https://github.com/OA-PASS/jhu-package-providers/tree/0.0.1/nihms-package-provider
+[11]: https://github.com/OA-PASS/jhu-package-providers/tree/0.0.1/bagit-package-provider
+[12]: https://github.com/OA-PASS/jhu-package-providers/tree/0.0.1/
+[13]: https://github.com/OA-PASS/pass-data-model/blob/master/src/main/resources/context-3.4.jsonld
+[14]: https://github.com/OA-PASS/java-fedora-client/tree/0.6.0

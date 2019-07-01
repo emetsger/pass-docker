@@ -192,7 +192,7 @@ services:
 
   deposit:
     build: ./deposit-services/1.0.0-3.4
-    image: oapass/deposit-pass-docker:1.0.0-3.4-SNAPSHOT@sha256:299e8c6bb8a861e2147f13d728fee898e61d2be5554ae405d8ddb29b50419fe8
+    image: oapass/deposit-pass-docker:1.0.0-3.4sha256@:8a2a02f0f3d58a10d4b46ced70ba53e267d4077bb7f7c29d780a9aaeab73b076
     container_name: deposit
     env_file: .env
     environment:
