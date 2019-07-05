@@ -124,6 +124,32 @@ function create_dash_metadata_schema() {
     return 0
 }
 
+function update_dc_metadata_schema() {
+    local FIELD_REGISTRY_TABLE=metadatafieldregistry
+    local DC_SCHEMA_ID=1
+    local IDENTIFIER_DOI_PRESENT=`perform_query "SELECT count(*) from ${FIELD_REGISTRY_TABLE} WHERE metadata_schema_id = '${DC_SCHEMA_ID}' AND element = 'identifier' and qualifier = 'doi'" | sed -n 3p | sed -e 's: ::g'`
+    local SOURCE_JOURNAL_PRESENT=`perform_query "SELECT count(*) from ${FIELD_REGISTRY_TABLE} WHERE metadata_schema_id = '${DC_SCHEMA_ID}' AND element = 'source' and qualifier = 'journal'" | sed -n 3p | sed -e 's: ::g'`
+    local SOURCE_VOLUME_PRESENT=`perform_query "SELECT count(*) from ${FIELD_REGISTRY_TABLE} WHERE metadata_schema_id = '${DC_SCHEMA_ID}' AND element = 'source' and qualifier = 'volume'" | sed -n 3p | sed -e 's: ::g'`
+
+    if [ ${IDENTIFIER_DOI_PRESENT:-0} == 0 ] ;
+    then
+        (>&2 echo ">>> Updating DC metadata registry ...")
+        perform_query "INSERT INTO ${FIELD_REGISTRY_TABLE} (metadata_schema_id, element, qualifier) VALUES ('${DC_SCHEMA_ID}', 'identifier', 'doi')"
+    fi
+    if [ ${SOURCE_JOURNAL_PRESENT:-0} == 0 ] ;
+    then
+        (>&2 echo ">>> Updating DC metadata registry ...")
+        perform_query "INSERT INTO ${FIELD_REGISTRY_TABLE} (metadata_schema_id, element, qualifier) VALUES ('${DC_SCHEMA_ID}', 'source', 'journal')"
+    fi
+    if [ ${SOURCE_VOLUME_PRESENT:-0} == 0 ] ;
+    then
+        (>&2 echo ">>> Updating DC metadata registry ...")
+        perform_query "INSERT INTO ${FIELD_REGISTRY_TABLE} (metadata_schema_id, element, qualifier) VALUES ('${DC_SCHEMA_ID}', 'source', 'volume')"
+    fi
+    return 0
+
+}
+
 function create_local_metadata_schema() {
     local FIELD_REGISTRY_TABLE=metadatafieldregistry
     local LOCAL_SCHEMA_ID=4
@@ -165,6 +191,9 @@ create_local_metadata_schema
 
 # Create the Harvard DASH metadata schema
 create_dash_metadata_schema
+
+# Add additional elements to the DC metadata schema
+update_dc_metadata_schema
 
 # Start jetty
 cd ${WORKDIR}
