@@ -2,6 +2,7 @@
 #set -xv
 
 DSPACE_ADMIN_USERNAME=dspace-admin@oapass.org
+DSPACE_SUBMITTER_USERNAME=submitter@oapass.org
 
 # insure the database is up and simple query can be executed
 function verify_db() {
@@ -52,6 +53,11 @@ function admin_user_exists() {
 function create_admin_user() {
     (>&2 echo ">>> Creating DSpace administrative user and DSpace database tables ...")
     ${DSPACE_INSTALL_DIR}/bin/dspace create-administrator -e ${DSPACE_ADMIN_USERNAME} -f DSpace -l Administrator -p foobar -c EN_US 2>&1 >/dev/null
+}
+
+function create_submitter_user() {
+    (>&2 echo ">>> Creating DSpace submitter user ...")
+    ${DSPACE_INSTALL_DIR}/bin/dspace user -a -g Submitter -s User -p moo -m ${DSPACE_SUBMITTER_USERNAME} 2>&1 >/dev/null
 }
 
 # updates the runtime configuration of dspace based on docker environment vars
@@ -163,6 +169,77 @@ function create_local_metadata_schema() {
     fi
     return 0
 }
+
+function lookup_handle_for_collection_uuid() {
+    local UUID=$1
+    local HANDLE_TABLE="handle"
+
+    HANDLE=`perform_query "SELECT handle from ${HANDLE} WHERE resource_type_id = '3' AND resource_id = ${UUID}" | sed -n 3p | sed -e 's: ::g'`
+
+    if [ -z ${HANDLE} ] ;
+    then
+        (>&2 echo ">>> Unable to resolve collection uuid ${UUID} to a handle ...")
+        return -1
+    fi
+
+    return 0;
+}
+
+function lookup_collection_uuid_for_handle() {
+    local HANDLE=$1
+    local HANDLE_TABLE="handle"
+
+    UUID=`perform_query "SELECT resource_id from ${HANDLE_TABLE} WHERE resource_type_id = '3' AND handle = '${HANDLE}'" | sed -n 3p | sed -e 's: ::g'`
+
+    if [ -z ${UUID} ] ;
+    then
+        (>&2 echo ">>> Unable to resolve collection handle ${HANDLE} to a uuid ...")
+        return -1
+    fi
+
+    return 0;
+}
+
+function lookup_group_uuid_for_name() {
+    local GROUP_TABLE="epersongroup"
+    local GROUP_NAME=$1
+
+    UUID=`perform_query "SELECT uuid from ${GROUP_TABLE} WHERE name = '${GROUP_NAME}'" | sed -n 3p | sed -e 's: ::g'`
+
+    if [ -z ${UUID} ] ;
+    then
+        (>&2 echo ">>> Unable to resolve eperson group name ${GROUP_NAME} to a uuid ...")
+        return -1
+    fi
+
+    return 0;
+}
+
+# allow members of the Anonymous EGroup to submit to Collection Two
+function update_policies() {
+    local RESOURCE_TYPE=3 # collection
+    local ADD_ACTION=3 # add
+    local XXX_ACTION=6 # unknown, but has to do with approving a submission
+    local RPTYPE="TYPE_WORKFLOW"
+    local RESOURCE_POLICY_TABLE=resourcepolicy
+
+    lookup_collection_uuid_for_handle "123456789/3"
+    local COLLECTION_TWO_UUID=${UUID}
+
+    lookup_group_uuid_for_name "Anonymous"
+    local ANONYMOUS_GROUP_UUID=${UUID}
+    lookup_group_uuid_for_name "Administrator"
+    local ADMIN_GROUP_UUID=${UUID}
+
+    # anonymous group may submit to collection 2
+    perform_query "INSERT INTO ${RESOURCE_POLICY_TABLE} (policy_id, resource_type_id, action_id, epersongroup_id, dspace_object) VALUES (10, '${RESOURCE_TYPE}', '${ADD_ACTION}', '${ANONYMOUS_GROUP_UUID}', '${COLLECTION_TWO_UUID}')"
+
+    # admin group may edit/update/approve/reject submissions to collection 2
+    perform_query "INSERT INTO ${RESOURCE_POLICY_TABLE} (policy_id, resource_type_id, action_id, rptype, epersongroup_id, dspace_object) VALUES (11, '${RESOURCE_TYPE}', '${ADD_ACTION}', '${RPTYPE}', '${ADMIN_GROUP_UUID}', '${COLLECTION_TWO_UUID}')"
+
+    perform_query "INSERT INTO ${RESOURCE_POLICY_TABLE} (policy_id, resource_type_id, action_id, rptype, epersongroup_id, dspace_object) VALUES (12, '${RESOURCE_TYPE}', '${XXX_ACTION}', '${RPTYPE}', '${ADMIN_GROUP_UUID}', '${COLLECTION_TWO_UUID}')"
+}
+
 # preserve WORKDIR
 WORKDIR=`pwd`
 
@@ -185,6 +262,13 @@ fi
 
 # Import communities and collections if they don't already exist
 import_communities_and_collections
+
+# Create a user for creating submissions who doesn't have admin privileges
+create_submitter_user
+
+# Allow uses of the Anonymous group to submit to Collection 2
+# Allow Administrator group to approve submissions to Collection 2
+update_policies
 
 # Create local metadata schema used to carry embargo metadata fields
 create_local_metadata_schema

@@ -21,5 +21,9 @@
       <name>Collection One</name>
       <description>A Collection used for testing, populated by Docker</description>
     </collection>
+    <collection>
+      <name>Collection Two</name>
+      <description>A Collection used for testing workflow-based submissions</description>
+    </collection>
   </community>
 </import_structure>
