@@ -222,6 +222,7 @@ function update_policies() {
     local XXX_ACTION=6 # unknown, but has to do with approving a submission
     local RPTYPE="TYPE_WORKFLOW"
     local RESOURCE_POLICY_TABLE=resourcepolicy
+    local RESOURCE_POLICY_SEQ=resourcepolicy_seq
 
     lookup_collection_uuid_for_handle "123456789/3"
     local COLLECTION_TWO_UUID=${UUID}
@@ -232,12 +233,12 @@ function update_policies() {
     local ADMIN_GROUP_UUID=${UUID}
 
     # anonymous group may submit to collection 2
-    perform_query "INSERT INTO ${RESOURCE_POLICY_TABLE} (policy_id, resource_type_id, action_id, epersongroup_id, dspace_object) VALUES (10, '${RESOURCE_TYPE}', '${ADD_ACTION}', '${ANONYMOUS_GROUP_UUID}', '${COLLECTION_TWO_UUID}')"
+    perform_query "INSERT INTO ${RESOURCE_POLICY_TABLE} (policy_id, resource_type_id, action_id, epersongroup_id, dspace_object) VALUES (nextval('${RESOURCE_POLICY_SEQ}'), '${RESOURCE_TYPE}', '${ADD_ACTION}', '${ANONYMOUS_GROUP_UUID}', '${COLLECTION_TWO_UUID}')"
 
     # admin group may edit/update/approve/reject submissions to collection 2
-    perform_query "INSERT INTO ${RESOURCE_POLICY_TABLE} (policy_id, resource_type_id, action_id, rptype, epersongroup_id, dspace_object) VALUES (11, '${RESOURCE_TYPE}', '${ADD_ACTION}', '${RPTYPE}', '${ADMIN_GROUP_UUID}', '${COLLECTION_TWO_UUID}')"
+    perform_query "INSERT INTO ${RESOURCE_POLICY_TABLE} (policy_id, resource_type_id, action_id, rptype, epersongroup_id, dspace_object) VALUES (nextval('${RESOURCE_POLICY_SEQ}'), '${RESOURCE_TYPE}', '${ADD_ACTION}', '${RPTYPE}', '${ADMIN_GROUP_UUID}', '${COLLECTION_TWO_UUID}')"
 
-    perform_query "INSERT INTO ${RESOURCE_POLICY_TABLE} (policy_id, resource_type_id, action_id, rptype, epersongroup_id, dspace_object) VALUES (12, '${RESOURCE_TYPE}', '${XXX_ACTION}', '${RPTYPE}', '${ADMIN_GROUP_UUID}', '${COLLECTION_TWO_UUID}')"
+    perform_query "INSERT INTO ${RESOURCE_POLICY_TABLE} (policy_id, resource_type_id, action_id, rptype, epersongroup_id, dspace_object) VALUES (nextval('${RESOURCE_POLICY_SEQ}'), '${RESOURCE_TYPE}', '${XXX_ACTION}', '${RPTYPE}', '${ADMIN_GROUP_UUID}', '${COLLECTION_TWO_UUID}')"
 }
 
 # preserve WORKDIR

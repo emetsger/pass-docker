@@ -127,7 +127,7 @@ services:
 
   dspace:
     build: ./dspace/6.2
-    image: oapass/dspace:20190705
+    image: oapass/dspace:20190730
     container_name: dspace
     env_file: .env
     ports:
