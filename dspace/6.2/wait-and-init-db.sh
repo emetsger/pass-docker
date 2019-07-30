@@ -215,30 +215,79 @@ function lookup_group_uuid_for_name() {
     return 0;
 }
 
-# allow members of the Anonymous EGroup to submit to Collection Two
+function lookup_eperson_uuid_for_name() {
+    local EPERSON_TABLE="eperson"
+    local EPERSON_EMAIL=$1
+
+    UUID=`perform_query "SELECT uuid from ${EPERSON_TABLE} WHERE email = '${EPERSON_EMAIL}'" | sed -n 3p | sed -e 's: ::g'`
+
+    if [ -z ${UUID} ] ;
+    then
+        (>&2 echo ">>> Unable to resolve eperson group name ${EPERSON_EMAIL} to a uuid ...")
+        return -1
+    fi
+
+    return 0;
+}
+
+
+# Create EGroup COLLECTION_${COLLECTION_TWO_UUID}_WORKFLOW_STEP_2, and allow members to submit to Collection Two
 function update_policies() {
+    (>&2 echo ">>> Updating resource policies ...")
+
     local RESOURCE_TYPE=3 # collection
     local ADD_ACTION=3 # add
     local XXX_ACTION=6 # unknown, but has to do with approving a submission
     local RPTYPE="TYPE_WORKFLOW"
+    local COLLECTION_TABLE=collection
     local RESOURCE_POLICY_TABLE=resourcepolicy
     local RESOURCE_POLICY_SEQ=resourcepolicy_seq
 
     lookup_collection_uuid_for_handle "123456789/3"
     local COLLECTION_TWO_UUID=${UUID}
+    (>&2 echo ">>>     UUID for 123456789/3: ${COLLECTION_TWO_UUID}")
 
-    lookup_group_uuid_for_name "Anonymous"
-    local ANONYMOUS_GROUP_UUID=${UUID}
-    lookup_group_uuid_for_name "Administrator"
-    local ADMIN_GROUP_UUID=${UUID}
+    lookup_eperson_uuid_for_name ${DSPACE_SUBMITTER_USERNAME}
+    local SUBMITTER_UUID=${UUID}
+    (>&2 echo ">>>     UUID for ${DSPACE_SUBMITTER_USERNAME}: ${SUBMITTER_UUID}")
+
+    lookup_eperson_uuid_for_name ${DSPACE_ADMIN_USERNAME}
+    local ADMIN_UUID=${UUID}
+    (>&2 echo ">>>     UUID for ${DSPACE_ADMIN_USERNAME}: ${ADMIN_UUID}")
+
+    # Create a epersongroup for approving Collection 2 submissions
+    perform_query "SELECT gen_random_uuid() into wkflow_uuid; \
+                   INSERT INTO dspaceobject ((SELECT gen_random_uuid from wkflow_uuid)) ;
+                   INSERT INTO epersongroup (uuid, permanent, name) VALUES ((SELECT gen_random_uuid from wkflow_uuid), false, 'COLLECTION_${COLLECTION_TWO_UUID}_WORKFLOW_STEP_2')"
+
+    # Create a epersongroup for Submitting to Collection 2
+    perform_query "SELECT gen_random_uuid() into submit_uuid; \
+                   INSERT INTO dspaceobject ((SELECT gen_random_uuid from submit_uuid)) ;
+                   INSERT INTO epersongroup (uuid, permanent, name) VALUES ((SELECT gen_random_uuid from submit_uuid), false, 'COLLECTION_${COLLECTION_TWO_UUID}_SUBMIT')"
+
+    lookup_group_uuid_for_name COLLECTION_${COLLECTION_TWO_UUID}_WORKFLOW_STEP_2
+    local APPROVE_WORKFLOW_UUID=${UUID}
+
+    lookup_group_uuid_for_name COLLECTION_${COLLECTION_TWO_UUID}_SUBMIT
+    local SUBMIT_GROUP_UUID=${UUID}
+
+    (>&2 echo ">>>     UUID for 'COLLECTION_${COLLECTION_TWO_UUID}_WORKFLOW_STEP_2' Group: ${APPROVE_WORKFLOW_UUID}")
+    (>&2 echo ">>>     UUID for 'COLLECTION_${COLLECTION_TWO_UUID}_SUBMIT' Group: ${SUBMIT_GROUP_UUID}")
+
+    perform_query "INSERT INTO epersongroup2eperson VALUES ('${APPROVE_WORKFLOW_UUID}', '${ADMIN_UUID}')"
+
+    perform_query "INSERT INTO epersongroup2eperson VALUES ('${SUBMIT_GROUP_UUID}', '${SUBMITTER_UUID}')"
+    perform_query "INSERT INTO epersongroup2eperson VALUES ('${SUBMIT_GROUP_UUID}', '${ADMIN_UUID}')"
 
     # anonymous group may submit to collection 2
-    perform_query "INSERT INTO ${RESOURCE_POLICY_TABLE} (policy_id, resource_type_id, action_id, epersongroup_id, dspace_object) VALUES (nextval('${RESOURCE_POLICY_SEQ}'), '${RESOURCE_TYPE}', '${ADD_ACTION}', '${ANONYMOUS_GROUP_UUID}', '${COLLECTION_TWO_UUID}')"
+    perform_query "INSERT INTO ${RESOURCE_POLICY_TABLE} (policy_id, resource_type_id, action_id, epersongroup_id, dspace_object) VALUES (nextval('${RESOURCE_POLICY_SEQ}'), '${RESOURCE_TYPE}', '${ADD_ACTION}', '${SUBMIT_GROUP_UUID}', '${COLLECTION_TWO_UUID}')"
 
     # admin group may edit/update/approve/reject submissions to collection 2
-    perform_query "INSERT INTO ${RESOURCE_POLICY_TABLE} (policy_id, resource_type_id, action_id, rptype, epersongroup_id, dspace_object) VALUES (nextval('${RESOURCE_POLICY_SEQ}'), '${RESOURCE_TYPE}', '${ADD_ACTION}', '${RPTYPE}', '${ADMIN_GROUP_UUID}', '${COLLECTION_TWO_UUID}')"
+    perform_query "INSERT INTO ${RESOURCE_POLICY_TABLE} (policy_id, resource_type_id, action_id, rptype, epersongroup_id, dspace_object) VALUES (nextval('${RESOURCE_POLICY_SEQ}'), '${RESOURCE_TYPE}', '${ADD_ACTION}', '${RPTYPE}', '${APPROVE_WORKFLOW_UUID}', '${COLLECTION_TWO_UUID}')"
 
-    perform_query "INSERT INTO ${RESOURCE_POLICY_TABLE} (policy_id, resource_type_id, action_id, rptype, epersongroup_id, dspace_object) VALUES (nextval('${RESOURCE_POLICY_SEQ}'), '${RESOURCE_TYPE}', '${XXX_ACTION}', '${RPTYPE}', '${ADMIN_GROUP_UUID}', '${COLLECTION_TWO_UUID}')"
+    perform_query "INSERT INTO ${RESOURCE_POLICY_TABLE} (policy_id, resource_type_id, action_id, rptype, epersongroup_id, dspace_object) VALUES (nextval('${RESOURCE_POLICY_SEQ}'), '${RESOURCE_TYPE}', '${XXX_ACTION}', '${RPTYPE}', '${APPROVE_WORKFLOW_UUID}', '${COLLECTION_TWO_UUID}')"
+
+    perform_query "UPDATE ${COLLECTION_TABLE} SET workflow_step_2 = '${APPROVE_WORKFLOW_UUID}', submitter = '${SUBMIT_GROUP_UUID}' WHERE uuid='${COLLECTION_TWO_UUID}'"
 }
 
 # preserve WORKDIR
