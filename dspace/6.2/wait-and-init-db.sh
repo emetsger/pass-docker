@@ -231,7 +231,8 @@ function lookup_eperson_uuid_for_name() {
 }
 
 
-# Create EGroup COLLECTION_${COLLECTION_TWO_UUID}_WORKFLOW_STEP_2, and allow members to submit to Collection Two
+# Create EGroups COLLECTION_${COLLECTION_TWO_UUID}_WORKFLOW_STEP_2, and COLLECTION_${COLLECTION_TWO_UUID}_SUBMIT, and
+# allow members to approve and submit to Collection Two.
 function update_policies() {
     (>&2 echo ">>> Updating resource policies ...")
 
@@ -279,14 +280,15 @@ function update_policies() {
     perform_query "INSERT INTO epersongroup2eperson VALUES ('${SUBMIT_GROUP_UUID}', '${SUBMITTER_UUID}')"
     perform_query "INSERT INTO epersongroup2eperson VALUES ('${SUBMIT_GROUP_UUID}', '${ADMIN_UUID}')"
 
-    # anonymous group may submit to collection 2
+    # submit group may submit to collection 2
     perform_query "INSERT INTO ${RESOURCE_POLICY_TABLE} (policy_id, resource_type_id, action_id, epersongroup_id, dspace_object) VALUES (nextval('${RESOURCE_POLICY_SEQ}'), '${RESOURCE_TYPE}', '${ADD_ACTION}', '${SUBMIT_GROUP_UUID}', '${COLLECTION_TWO_UUID}')"
 
-    # admin group may edit/update/approve/reject submissions to collection 2
+    # workflow group may edit/update/approve/reject submissions to collection 2
     perform_query "INSERT INTO ${RESOURCE_POLICY_TABLE} (policy_id, resource_type_id, action_id, rptype, epersongroup_id, dspace_object) VALUES (nextval('${RESOURCE_POLICY_SEQ}'), '${RESOURCE_TYPE}', '${ADD_ACTION}', '${RPTYPE}', '${APPROVE_WORKFLOW_UUID}', '${COLLECTION_TWO_UUID}')"
 
     perform_query "INSERT INTO ${RESOURCE_POLICY_TABLE} (policy_id, resource_type_id, action_id, rptype, epersongroup_id, dspace_object) VALUES (nextval('${RESOURCE_POLICY_SEQ}'), '${RESOURCE_TYPE}', '${XXX_ACTION}', '${RPTYPE}', '${APPROVE_WORKFLOW_UUID}', '${COLLECTION_TWO_UUID}')"
 
+    # Attach the workflow and submit groups to Collection 2
     perform_query "UPDATE ${COLLECTION_TABLE} SET workflow_step_2 = '${APPROVE_WORKFLOW_UUID}', submitter = '${SUBMIT_GROUP_UUID}' WHERE uuid='${COLLECTION_TWO_UUID}'"
 }
 
@@ -316,8 +318,8 @@ import_communities_and_collections
 # Create a user for creating submissions who doesn't have admin privileges
 create_submitter_user
 
-# Allow uses of the Anonymous group to submit to Collection 2
-# Allow Administrator group to approve submissions to Collection 2
+# Create a group that includes the Submitter; allow this group to deposit submissions to Collection 2
+# Create a group that includes the Administrator; allow this group to approve submissions to Collection 2
 update_policies
 
 # Create local metadata schema used to carry embargo metadata fields
