@@ -29,6 +29,18 @@
           "username": "${dspace.submitter.username}",
           "password": "${dspace.submitter.password}",
           "url": "${dspace.baseuri}/swordv2"
+        },
+        {
+          "mech": "basic",
+          "username": "${dspace.submitter.username}",
+          "password": "${dspace.submitter.password}",
+          "url": "http://dspace6-qa.lib.harvard.edu/swordv2"
+        },
+        {
+          "mech": "basic",
+          "username": "${dspace.submitter.username}",
+          "password": "${dspace.submitter.password}",
+          "url": "https://dspace6-qa.lib.harvard.edu/swordv2"
         }
       ],
       "protocol-binding": {

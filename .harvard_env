@@ -56,12 +56,12 @@ PASS_FEDORA_PASSWORD=moo
 
 
 # DSpace config
-DSPACE_HOST=pass.local
-DSPACE_PORT=8181
-DSPACE_BASEURI=http://pass.local:8181
-DSPACE_SUBMITTER_USERNAME=submitter@oapass.org
-DSPACE_SUBMITTER_PASSWORD=moo
-DSPACE_COLLECTION_WORKFLOW_HANDLE=123456789/3
+DSPACE_HOST=dash-sword-qa.lib.harvard.edu
+DSPACE_PORT=443
+DSPACE_BASEURI=https://dash-sword-qa.lib.harvard.edu
+DSPACE_SUBMITTER_USERNAME=emetsger@jhu.edu
+DSPACE_SUBMITTER_PASSWORD=4PASSHarvardTesting
+DSPACE_COLLECTION_WORKFLOW_HANDLE=1/37156602
 
 # Postgres config
 POSTGRES_DB_PORT=6543
@@ -86,9 +86,10 @@ PI_ES_CONFIG=https://raw.githubusercontent.com/emetsger/pass-data-model/dash/src
 DEPOSIT_DEBUG_PORT=5007
 PASS_DEPOSIT_QUEUE_SUBMISSION_NAME=Consumer.submission.VirtualTopic.pass.docker
 PASS_DEPOSIT_QUEUE_DEPOSIT_NAME=Consumer.deposit.VirtualTopic.pass.docker
-PASS_DEPOSIT_OAICLIENT_DASH_OAIBASEURL=http://dspace:8181/oai/request
-PASS_DEPOSIT_PROVIDER_DASH_COPYBASEURL=http://pass.local:8181/
+PASS_DEPOSIT_OAICLIENT_DASH_OAIBASEURL=https://dash-sword-qa.lib.harvard.edu/oai/request
+PASS_DEPOSIT_PROVIDER_DASH_COPYBASEURL=https://dash-sword-qa.lib.harvard.edu/
 PASS_DEPOSIT_JOBS_DEFAULT_INTERVAL_MS=30000
+PASS_DEPOSIT_TRANSPORT_SWORDV2_FOLLOWREDIRECTS=true
 
 # Authorization Listener
 PASS_AUTHZ_QUEUE=Consumer.authz.VirtualTopic.pass.docker
