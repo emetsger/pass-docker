@@ -86,10 +86,11 @@ PI_ES_CONFIG=https://raw.githubusercontent.com/emetsger/pass-data-model/dash/src
 DEPOSIT_DEBUG_PORT=5007
 PASS_DEPOSIT_QUEUE_SUBMISSION_NAME=Consumer.submission.VirtualTopic.pass.docker
 PASS_DEPOSIT_QUEUE_DEPOSIT_NAME=Consumer.deposit.VirtualTopic.pass.docker
-PASS_DEPOSIT_OAICLIENT_DASH_OAIBASEURL=https://dash-sword-qa.lib.harvard.edu/oai/request
-PASS_DEPOSIT_PROVIDER_DASH_COPYBASEURL=https://dash-sword-qa.lib.harvard.edu/
+PASS_DEPOSIT_OAICLIENT_DASH_OAIBASEURL=https://dspace6-qa.lib.harvard.edu/oai/request
+PASS_DEPOSIT_PROVIDER_DASH_COPYBASEURL=http://nrstest.harvard.edu:9031/
 PASS_DEPOSIT_JOBS_DEFAULT_INTERVAL_MS=30000
 PASS_DEPOSIT_TRANSPORT_SWORDV2_FOLLOWREDIRECTS=true
+edu.jhu.library.pass.deposit.provider.level
 
 # Authorization Listener
 PASS_AUTHZ_QUEUE=Consumer.authz.VirtualTopic.pass.docker

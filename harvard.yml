@@ -202,8 +202,8 @@ services:
       args:
         # The providers image is released by the github.com/oa-pass/jhu-package-providers repository
         # Version 0.0.2-SNAPSHOT includes the DASH package provider
-        PROVIDERS_IMAGE: oapass/deposit-services-providers:0.0.2-SNAPSHOT@sha256:84315c59593f497a70fde2e01c7c2ed08de5f8a389ecbc33db9bc301d74d7d15
-    image: oapass/deposit-pass-docker:1.1.0-3.5-SNAPSHOT@sha256:784a766cf9533136dd58b18a09e956a9b8bbe0b0d2519f7141f3cc4e26cdff0e
+        PROVIDERS_IMAGE: oapass/deposit-services-providers:0.0.2-SNAPSHOT@sha256:4d91f1ccd24cebd5e358a7c9b62623680e07d4e7d86866babe04127158ecde9e
+    image: oapass/deposit-pass-docker:1.1.0-3.5-SNAPSHOT@sha256:1f66c5cdd3c4c1884a5ab34b8c914a4434938c8b519804276d6dbe9f061da184
     container_name: deposit
     env_file: .harvard_env
     environment:
