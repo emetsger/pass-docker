@@ -158,6 +158,7 @@ In addition we need PASS_EXTERNAL_FEDORA_BASEURL to be present to translate inte
 
 - DOWNLOAD_SERVICE_PORT: Port to serve the download service on (default: `6502`)
 - DOWNLOAD_SERVICE_DEST: Fedora container URI where binaries will be downloaded into (default: http://fcrepo:8080/fcrepo/rest/files) 
+- DOWNLOAD_SERVICE_MAXREDIRECTS: Number of redirects that the http client will allow before halting (default: `20`)
 - UNPAYWALL_REQUEST_EMAIL: E-mail address that will be sent with unpaywall requests (can be any validly formatted email address, e.g. admin@oa-pass.org)
 - UNPAYWALL_BASEURI: BaseURL of the unpaywall service (e.g. https://api.unpaywall.org/v2).
 - PASS_EXTERNAL_FEDORA_BASEURL:  External (public) PASS baseurl (e.g. https://pass.local/fcrepo/rest/, _note_ the trailing slash is necessary)
