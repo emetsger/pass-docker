@@ -487,3 +487,45 @@ employeeNumber: 00101877
 displayName: No Email V
 employeeType: STAFF
 homeDirectory: /home/noEmail5
+
+dn: uid=notification-prod-bcc,ou=People,dc=pass
+uid: notification-prod-bcc
+uidNumber: 7023
+gidNumber: 5000
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: eduPerson
+givenName: Notification Prod BCC Address
+sn: Prod
+cn: Notification Prod CC BCC Address
+mail: notification-prod-bcc@jhu.edu
+userPassword: moo
+eduPersonUniqueId: FAKE0007
+employeeNumber: 99000007
+displayName: Notification Prod BCC Address
+employeeType: STAFF
+homeDirectory: /home/nprodbcc
+
+dn: uid=notification-demo-bcc,ou=People,dc=pass
+uid: notification-demo-bcc
+uidNumber: 7024
+gidNumber: 5000
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: eduPerson
+givenName: Notification Demo BCC Address
+sn: Demo
+cn: Notification Demo BCC Address
+mail: notification-demo-bcc@jhu.edu
+userPassword: moo
+eduPersonUniqueId: FAKE0008
+employeeNumber: 99000008
+displayName: Notification Demo BCC Address
+employeeType: STAFF
+homeDirectory: /home/ndemobcc
