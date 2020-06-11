@@ -1,6 +1,6 @@
 FROM openjdk:8u212-jre-alpine3.9@sha256:5c5867cd2d4d198d1e53562c8202dfa388832b6f7d8276e69eae212b326c7777
 
-ENV NOTIFICATION_SERVICES_VERSION=0.0.2-3.2 \
+ENV NOTIFICATION_SERVICES_VERSION=0.1.0-3.4-SNAPSHOT \
     JSONLD_CONTEXT_VERSION=3.2 \
     FCREPO_HOST=${FCREPO_HOST:-fcrepo} \
     FCREPO_PORT=${FCREPO_PORT:-8080} \
@@ -21,7 +21,7 @@ ENV NOTIFICATION_SERVICES_VERSION=0.0.2-3.2 \
 RUN apk update && \
     apk add --no-cache wget && \
     wget -O notification-services.jar \
-        http://repo1.maven.org/maven2/org/dataconservancy/pass/notify/notification-boot/${NOTIFICATION_SERVICES_VERSION}/notification-boot-${NOTIFICATION_SERVICES_VERSION}-exec.jar && \
+        https://oss.sonatype.org/content/repositories/snapshots/org/dataconservancy/pass/notify/notification-boot/0.1.0-3.4-SNAPSHOT/notification-boot-0.1.0-3.4-20200611.135820-1-exec.jar && \
     echo "networkaddress.cache.ttl=10" >> ${JAVA_HOME}/lib/security/java.security
     
 

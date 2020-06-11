@@ -7,6 +7,9 @@
       "global_cc": [
         "${pass.notification.demo.global.cc.address}"
       ],
+      "global_bcc": [
+        "${pass.notification.demo.global.bcc.address}"
+      ],
       "whitelist": [
         "superuser@jhu.edu",
         "grant-admin-submitter@jhu.edu",
@@ -33,7 +36,10 @@
     },
     {
       "mode": "PRODUCTION",
-      "fromAddress": "${pass.notification.production.from.address}"
+      "fromAddress": "${pass.notification.production.from.address}",
+      "global_bcc": [
+        "${pass.notification.production.global.bcc.address}"
+      ]
     }
   ],
   "templates": [

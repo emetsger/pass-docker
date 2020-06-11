@@ -250,7 +250,7 @@ services:
       - ldap
 
   notification:
-    build: notification-services/0.0.2-3.2
+    build: notification-services/0.1.0-3.4
     image: oapass/notification-services:0.0.2-3.2-1@sha256:5475490671d2c630f89265c44736f74d4520b84cf5b239c29b5c74678762a2e9
     container_name: notification
     networks:
